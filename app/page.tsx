@@ -9,6 +9,10 @@ import {redirect} from "next/navigation"
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import Nav from "./components/Nav";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import NumberTicker from "@/components/magicui/number-ticker";
 
 
 export default function Home() { 
@@ -179,12 +183,12 @@ const {data: session} = useSession()
 
         </div>
         <div className="flex flex-col items-center w-1/4 py-8">
-          <h1 className="text-3xl lg:text-5xl font-bold">150 +</h1>
+          <h1 className="text-3xl lg:text-5xl font-bold"><NumberTicker value={150} /></h1>
           <p className="text-sm lg:text-xl font-semibold my-2">Nouveaux utilisateur / Mois</p>
 
         </div>
         <div className="flex flex-col items-center w-1/4 py-8">
-          <h1 className="text-3xl lg:text-5xl font-bold">300 +</h1>
+          <h1 className="text-3xl lg:text-5xl font-bold"><NumberTicker value={300} /> +</h1>
           <p className="text-sm lg:text-xl font-semibold my-2">AG générées / Mois</p>
 
         </div>
@@ -194,10 +198,10 @@ const {data: session} = useSession()
       <section className="mt-8">
 
         <div className="w-full">
-            <img src="/wave.svg" alt="bg" className="w-full"/>
+            <img src="/wave.svg" alt="bg" className="w-full" id="avantages"/>
         </div>
         <div className="mt-[-1px] w-full bg-[#22c55e] h-auto px-8 xl:px-28 flex flex-col">
-        <h1 id="avantages" className="text-[#faf5ef] font-semibold text-4xl text-center">Nos Avantages :</h1>
+        <h1 className="text-[#faf5ef] font-semibold text-4xl text-center">Nos Avantages :</h1>
         <div className="flex flex-col xl:flex-row w-full items-center justify-between h-auto my-12 bg-[#faf5ef] rounded-xl transition-all duration-500 ease-in-out py-8">
         
         <div className="w-full xl:w-1/3 p-4 text-center rounded-lg px-12 py-8 ">
@@ -267,7 +271,7 @@ const {data: session} = useSession()
         <div className="w-full :w-3/4 transition-all duration-300 ease-in-out">{renderContent()}</div>
 
       </div>
-      <Button className="bg-[#faf5ef] text-black font-bold rounded-md mb-6 mx-auto">Commencer Maintenant</Button>
+      <Button className="bg-[#faf5ef] hover:bg-[#E3D6BF] text-black font-bold rounded-md mb-6 mx-auto">Commencer Maintenant</Button>
     </div>
 
 
@@ -335,6 +339,65 @@ const {data: session} = useSession()
           </div>
         </div>
       </section>
+
+      <section className="w-full flex items-center p-4 justify-center bg-green-700 shadow-md py-10">
+          <div className="bg-[#faf5ef] p-8 rounded-lg w-10/12">
+            <h2 id="contact" className="text-3xl font-semibold mb-6 text-center text-green-700 underline underline-offset-4">Contactez-nous</h2>
+            <form className="space-y-4 w-full mx-auto">
+              <div>
+                <Label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
+                  Prénom
+                </Label>
+                <Input
+                  type="text"
+                  id="firstName"
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                  placeholder="Votre prénom"
+                />
+              </div>
+              <div>
+                <Label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
+                  Nom
+                </Label>
+                <Input
+                  type="text"
+                  id="lastName"
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                  placeholder="Votre nom"
+                />
+              </div>
+              <div>
+                <Label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  Email
+                </Label>
+                <Input
+                  type="email"
+                  id="email"
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                  placeholder="Votre email"
+                />
+              </div>
+              <div>
+                <Label htmlFor="message" className="block text-sm font-medium text-gray-700">
+                  Message
+                </Label>
+                <Textarea
+                  id="message"
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                  placeholder="Votre message"
+                ></Textarea>
+              </div>
+              <div className="flex justify-center">
+                <Button
+                  type="submit"
+                  className="bg-green-700 hover:bg-green-800 w-1/3 rounded-lg shadow-lg"
+                >
+                  Envoyer
+                </Button>
+              </div>
+            </form>
+          </div>
+    </section>
 
     </div>
 

@@ -28,7 +28,7 @@ export default function Nav() {
             <div className="hidden md:flex items-center gap-4 md:gap-8">
               <a href="#avantages" className="text-gray-700 hover:text-green-500">Avantages</a>
               <a href="#tarifs" className="text-gray-700 hover:text-green-500">Tarifs</a>
-              <a href="#" className="text-gray-700 hover:text-green-500">Contactez-Nous</a>
+              <a href="#contact" className="text-gray-700 hover:text-green-500">Contactez-Nous</a>
             </div>
           </div>
           <div className="hidden md:flex gap-4">
@@ -50,7 +50,7 @@ export default function Nav() {
           <div className="fixed left-0 mt-24 right-0 bg-white bg-opacity-80 shadow-md w-11/12 rounded-md mx-auto flex flex-col items-center backdrop-blur-md px-8 z-40 py-3 md:hidden">
             <a href="#avantages" className="text-gray-700 hover:text-green-500 py-2">Avantages</a>
             <a href="#tarifs" className="text-gray-700 hover:text-green-500 py-2">Tarifs</a>
-            <a href="/" className="text-gray-700 hover:text-green-500 py-2">Contactez-Nous</a>
+            <a href="#contact" className="text-gray-700 hover:text-green-500 py-2">Contactez-Nous</a>
             <div className="mt-4">
               {session ? (
                 <ButtonSignOut />
