@@ -19,12 +19,12 @@ export default async function PageNotes() {
           <p className="text-lg text-muted-foreground ">Ne perdais pas tes idées, prend des notes grand fou</p>
           <div className="w-12 bg-white my-2 mx-1 h-[1px]"></div>
         </div>
-        <Button>
-          <Link href="/dashboard/notes/createdocx">Créer une AGO</Link>
-        </Button>
-        <Button>
-          <Link href="/dashboard/notes/create">Créer une note</Link>
-        </Button>
+        <Link href="/dashboard/notes/createdocx">
+        <Button>Créer une AGO</Button>
+        </Link>
+        <Link href="/dashboard/notes/create">
+        <Button>Créer une note</Button>
+        </Link>
       </div>
 
       {data.length < 1 ? (
@@ -34,9 +34,9 @@ export default async function PageNotes() {
             </div>
             <p className="text-lg ">Vous n'avez aucune note</p>
             <p className="text-muted-foreground text-sm">Commencez des maintenant à créer des notes via notre application</p>
-            <Button className="bg-green-500 hover:bg-green-600 text-white mt-4">
-              <Link href="/dashboard/notes/create">Créer une nouvelle note</Link>
-            </Button>
+            <Link href="/dashboard/notes/create">
+            <Button className="bg-green-500 hover:bg-green-600 text-white mt-4">Créer une nouvelle note</Button>
+            </Link>
           </div>
       ) : (
         <div className="flex flex-col space-y-4 ">

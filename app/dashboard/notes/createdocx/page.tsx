@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label"
 import Link from "next/link"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
-import { createNote } from "@/lib/actionsNotes"
+import { createAGO } from "@/lib/actionsAGO"
 import {
     Select,
     SelectContent,
@@ -45,7 +45,7 @@ export default function CreatePage() {
       };
   return (
     <Card>
-        <form action={createNote}>
+        <form action={createAGO}>
             <CardHeader>
                 <CardTitle>Nouvelle Note</CardTitle>
                 <CardDescription>Quelques mot pour ne pas oublier</CardDescription>
@@ -667,21 +667,21 @@ export default function CreatePage() {
                 <div className="gap-y-2 flex space-x-5">
                     <div className="gap-y-2 flex flex-col w-1/2">
                         <Label htmlFor="benef">Résultat Bénéficiaire</Label>
-                        <Input type="number" id="benef" name="benef" min="0" step="0.01" placeholder="ex : 20000" required/>
+                        <Input type="number" id="benef" name="benef" min="0" step="0.01" placeholder="ex : 20000"/>
                     </div>
                     <p className="pt-7">ou</p>
                     <div className="gap-y-2 flex flex-col w-1/2">
                         <Label htmlFor="deficite">Résultat Déficitaire</Label>
-                        <Input type="number" id="deficite" name="deficite" min="0" step="0.01" placeholder="ex : 20000" required/>
+                        <Input type="number" id="deficite" name="deficite" min="0" step="0.01" placeholder="ex : 20000"/>
                     </div>
                 </div>
                 <div className="flex flex-col gap-y-2">
                 <Label htmlFor="3exercices">Les 3 derniers exercices</Label>
                 <div className="text-sm">
-                <p className="flex flex-col items-center">Cochez si vous n'avez pas de dividendes distribués</p>
-                <Input type="checkbox" value="Envoyer" />
+                <p>Cochez si vous n'avez pas de dividendes distribués</p>
+                <Input type="checkbox" id="completed" name="completed" className="w-6 cursor-pointer"/>
                 </div>
-                <p className="flex flex-col items-center">sinon</p>
+                <p>sinon</p>
                 <table className="border-collapse border border-black">
                     <tr>
                         <th rowSpan={2} className="border border-black p-2">Exercice clos le</th>
@@ -695,10 +695,10 @@ export default function CreatePage() {
                     <tr>
                         <td className="cell-container border border-black">
                         <div className="upper-cell text-center">
-                            N-1 : <Input type="date" id="n1Date" name="n1Date" className="w-full" />
+                            N-1 : <Input type="date" id="n1Date" name="n1Date" className="w-full" required/>
                         </div>
                         <div className="lower-cell text-center">
-                            AGO du <Input type="date" id="n1DateAGO" name="n1DateAGO" className="w-full" />
+                            AGO du <Input type="date" id="n1DateAGO" name="n1DateAGO" className="w-full" required/>
                         </div>
                         </td>
                         <td className="border border-black p-2"><Input type='number' min="0" id="montant11" name="montant11" className="w-full" placeholder="0 €"/></td>
@@ -708,10 +708,10 @@ export default function CreatePage() {
                     <tr>
                         <td className="cell-container border border-black">
                         <div className="upper-cell text-center">
-                            N-2 : <Input type="date" id="n2Date" name="n2Date" className="w-full" />
+                            N-2 : <Input type="date" id="n2Date" name="n2Date" className="w-full" required/>
                         </div>
                         <div className="lower-cell text-center">
-                            AGO du <Input type="date" id="n2DateAGO" name="n2DateAGO" className="w-full" />
+                            AGO du <Input type="date" id="n2DateAGO" name="n2DateAGO" className="w-full" required/>
                         </div>
                         </td>
                         <td className="border border-black p-2"><Input type='number' min="0" id="montant21" name="montant21" className="w-full" placeholder="0 €"/></td>
@@ -721,10 +721,10 @@ export default function CreatePage() {
                     <tr>
                         <td className="cell-container border border-black">
                         <div className="upper-cell text-center">
-                            N-3 : <Input type="date" id="n3Date" name="n3Date" className="w-full" />
+                            N-3 : <Input type="date" id="n3Date" name="n3Date" className="w-full" required/>
                         </div>
                         <div className="lower-cell text-center">
-                            AGO du <Input type="date" id="n3DateAGO" name="n3DateAGO" className="w-full" />
+                            AGO du <Input type="date" id="n3DateAGO" name="n3DateAGO" className="w-full" required/>
                         </div>
                         </td>
                         <td className="border border-black p-2"><Input type='number' min="0" id="montant31" name="montant31" className="w-full" placeholder="0 €"/></td>
