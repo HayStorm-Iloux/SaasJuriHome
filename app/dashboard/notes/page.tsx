@@ -5,11 +5,27 @@ import { getAllNotes } from "@/lib/actionsNotes"
 import {Delete, Divide, File,FilePenLine} from "lucide-react"
 import ButtonDelete from "@/app/components/ButtonDelete"
 import { Card } from "@/components/ui/card"
+import { prisma } from "@/lib/db"
+import { redirect } from "next/navigation"
 
 export default async function PageNotes() {
 
   const user = await getUser();
   const data = await getAllNotes(user?.id as string);
+
+  if (!user) {
+    redirect('/')
+  }
+
+  const sub = await prisma.user.findUnique({
+    where: { id: user?.id },
+    include: { subscription: true },
+  });
+
+  const hasActiveSubscription = sub?.subscription.some(
+    (subscription) => subscription.status === "active"
+  );
+
 
   return (
     <section className="grid items-start gap-y-8">
@@ -31,9 +47,15 @@ export default async function PageNotes() {
             </div>
             <p className="text-lg ">Vous n'avez aucune note</p>
             <p className="text-muted-foreground text-sm">Commencez des maintenant à créer des notes via notre application</p>
-            <Button className="bg-green-500 hover:bg-green-600 text-white mt-4">
-              <Link href="/dashboard/notes/create">Créer une nouvelle note</Link>
-            </Button>
+              {!hasActiveSubscription ? (
+                <Link href="/dashboard/payment">
+                  <Button className="bg-green-500 hover:bg-green-600 text-white mt-4">Créer une nouvelle note</Button>
+                </Link>
+              ):(
+                <Link href="/dashboard/notes/create">
+                  <Button className="bg-green-500 hover:bg-green-600 text-white mt-4">Créer une nouvelle note</Button>
+                </Link>
+              )}
           </div>
       ) : (
         <div className="flex flex-col space-y-4 ">

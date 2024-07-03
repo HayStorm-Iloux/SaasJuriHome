@@ -1,5 +1,5 @@
 'use client'
-import { NotebookPen, Settings,CreditCard,Image,KeyRound   } from 'lucide-react';
+import { NotebookPen, Settings,CreditCard,Handshake  } from 'lucide-react';
 import Link from "next/link";
 import { usePathname } from "next/navigation"
 import ButtonSignOut from './ButtonSignOut';
@@ -12,6 +12,7 @@ export default function DashboardNav() {
 
   const menuDashboard = [
     { name: "Notes", icon: NotebookPen, path: "/dashboard/notes" },
+    { name: "PandaFec", icon: Handshake, path: "/dashboard/panda" },
     { name: "Settings", icon: Settings, path: "/dashboard/settings" },
     { name: "Paiement", icon: CreditCard , path: "/dashboard/payment" },
   ];

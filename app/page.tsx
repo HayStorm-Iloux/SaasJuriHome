@@ -2,17 +2,16 @@
 
 import Image from "next/image";
 import Link from "next/link"
-import { Typewriter, Cursor } from "react-simple-typewriter";
-import ButtonProvider from "./components/ButtonProvider";
 import { useSession } from "next-auth/react";
 import {redirect} from "next/navigation"
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect} from "react";
 import { Button } from "@/components/ui/button";
 import Nav from "./components/Nav";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import NumberTicker from "@/components/magicui/number-ticker";
+import ButtonProvider from "./components/ButtonProvider";
 
 
 export default function Home() { 
@@ -24,6 +23,8 @@ const {data: session} = useSession()
   if(session){
     redirect("/dashboard/notes")
   }
+
+  console.log(session)
 
   const [selectedSection, setSelectedSection] = useState('section1');
   const [progress, setProgress] = useState(0);
@@ -114,7 +115,7 @@ const {data: session} = useSession()
             Remplissez le formulaire et obtenez vos documents en quelques minutes.
           </p>
           <div className="">
-            <button className="bg-[#22c55e] hover:bg-green-700 text-white px-4 py-2 rounded-md">
+            <button className="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-md">
               Commencer Maintenant
             </button>
           </div>
@@ -200,7 +201,7 @@ const {data: session} = useSession()
         <div className="w-full">
             <img src="/wave.svg" alt="bg" className="w-full" id="avantages"/>
         </div>
-        <div className="mt-[-1px] w-full bg-[#22c55e] h-auto px-8 xl:px-28 flex flex-col">
+        <div className="mt-[-1px] w-full bg-green-700 h-auto px-8 xl:px-28 flex flex-col">
         <h1 className="text-[#faf5ef] font-semibold text-4xl text-center">Nos Avantages :</h1>
         <div className="flex flex-col xl:flex-row w-full items-center justify-between h-auto my-12 bg-[#faf5ef] rounded-xl transition-all duration-500 ease-in-out py-8">
         
@@ -260,7 +261,7 @@ const {data: session} = useSession()
                 </div>
                 {selectedSection === section && (
                   <div
-                    className="h-1 bg-[#22c55e] rounded-full transition-all duration-300 ease-in-out"
+                    className="h-1 bg-green-700 rounded-full transition-all duration-300 ease-in-out"
                     style={{ width: `${progress}%` }}
                   ></div>
                 )}
@@ -283,9 +284,9 @@ const {data: session} = useSession()
         <div className="flex flex-col lg:flex-row items-center justify-center">
             <div className="bg-[#faf5ef] w-5/6 lg:w-1/6 flex flex-col px-4 py-4 rounded-xl mt-20 mx-20 shadow-sm">
               <div className="bg-white h-1/3 px-4 py-4 rounded-xl flex flex-col shadow-xl">
-                <h2 className="font-semibold text-xl my-4 text-[#22c55e] ">Offre Mensuelle</h2>
+                <h2 className="font-semibold text-xl my-4 text-green-700 ">Offre Mensuelle</h2>
                 <h1 className="font-bold text-3xl my-4 md:text-center">29€99</h1>
-                <Button className="bg-[#22c55e]  text-white rounded-md mt-6">Commencer</Button>
+                <Button className="bg-green-700  text-white rounded-md mt-6">Commencer</Button>
               </div>
               <div className="mt-6 px-4">
                   <h3 className="text-sm font-bold text-gray-700">Inclus :</h3>
@@ -319,11 +320,11 @@ const {data: session} = useSession()
               </div>
           </div>
           <div className="bg-[#faf5ef] w-5/6 lg:w-1/6 flex flex-col px-4 py-4 rounded-xl mt-20 mx-20">
-          <h2 className="text-center font-semibold text-[#22c55e] pb-2">economiser 11%</h2>
+          <h2 className="text-center font-semibold text-green-700 pb-2">economiser 11%</h2>
               <div className="bg-white h-1/3 px-4 py-4 rounded-xl flex flex-col shadow-xl">
-                <h2 className="font-semibold text-xl my-4 text-[#22c55e]">Offre Annuelle</h2>
+                <h2 className="font-semibold text-xl my-4 text-green-700">Offre Annuelle</h2>
                 <h1 className="font-bold text-3xl my-4 md:text-center">109€99</h1>
-                <Button className="bg-[#22c55e]  text-white rounded-md mt-6">Commencer</Button>
+                <Button className="bg-green-700 text-white rounded-md mt-6">Commencer</Button>
               </div>
               <div className="mt-6 px-4">
                   <h3 className="text-sm font-bold text-gray-700">Inclus :</h3>
@@ -398,6 +399,34 @@ const {data: session} = useSession()
             </form>
           </div>
     </section>
+
+    <footer className="bg-[#363c48] w-full flex justify-center py-6">
+      <section className="w-3/4 flex justify-around">
+            <div className="flex flex-col justify-around">
+              <Link href="/" className="flex items-center font-semibold text-xl md:text-2xl text-white">
+                <img src="/logo3.png" alt="logo site" className="w-8 rounded-lg shadow-lg mr-2" />
+                Juri<span className="text-green-700">Home</span>
+              </Link>
+              <p className="text-white">Votre logiciel spécialiser en assemblée générale</p>
+            </div>
+            <div className="flex flex-col justify-around items-center text-white">
+              <h2 className="font-bold text-lg underline underline-offset-2">Menu</h2>
+              <a href="#avantages"><h3 className="font-normal mt-2 hover:text-green-500">Avantages</h3></a>
+              <a href="#tarifs"><h3 className="font-normal mt-2 hover:text-green-500">Tarifs</h3></a>
+              <a href="#contact"><h3 className="font-normal mt-2 hover:text-green-500">Contactez-nous</h3></a>
+            </div>
+            <div className="flex flex-col justify-around items-center text-white">
+              <h2 className="font-bold text-lg underline underline-offset-2">Mention Légales</h2>
+              <h3 className="font-normal mt-2 hover:text-green-500">CGU</h3>
+              <h3 className="font-normal mt-2 hover:text-green-500">CGV</h3>
+              <h3 className="font-normal mt-2 hover:text-green-500">Confidentialité</h3>
+            </div>
+            <div className="flex flex-col justify-around items-center text-white">
+              <h2 className="font-bold text-lg underline underline-offset-2">Application</h2>
+              <ButtonProvider/>
+            </div>
+      </section>
+    </footer>
 
     </div>
 

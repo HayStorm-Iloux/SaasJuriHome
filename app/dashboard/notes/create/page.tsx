@@ -5,10 +5,32 @@ import Link from "next/link"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { createNote } from "@/lib/actionsNotes"
+import { getUser } from "@/lib/actionsUsers"
+import { redirect } from "next/navigation"
+import { prisma } from "@/lib/db"
 
 
 
-export default function CreatePage() {
+export default async function CreatePage() {
+
+    const user = await getUser();
+
+  if (!user) {
+    redirect('/')
+  }
+
+  const sub = await prisma.user.findUnique({
+    where: { id: user?.id },
+    include: { subscription: true },
+  });
+
+  const hasActiveSubscription = sub?.subscription.some(
+    (subscription) => subscription.status === "active"
+  );
+
+  if (!hasActiveSubscription) {
+    redirect('/dashboard/payment')
+  }
   return (
     <Card>
         <form action={createNote}>
