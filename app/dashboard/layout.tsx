@@ -1,4 +1,3 @@
-
 import DashboardNav from "../components/DashboardNav"
 import ButtonSignOut from "../components/ButtonSignOut"
 import { ToastContainer } from 'react-toastify';
@@ -34,11 +33,13 @@ export default async function DashboardLayout({children}: Readonly<{children: Re
 
 
     return (
-        <section className="max-w-[1200px] mx-auto md:flex md:items-center md:gap-4 h-screen w-full mt-2 p-2">
+        <section className="flex justify-between items-center sm:items-start flex-col sm:flex-row w-9/12 mx-auto">
 
-            <DashboardNav />
-            
-            <div className="w-full h-full">
+            <div className="w-1/6 flex justify-center my-10 ">
+            <DashboardNav />  
+            </div>
+
+            <div className="w-5/6 mt-14">
                 {children}
                 <ToastContainer />
             </div>

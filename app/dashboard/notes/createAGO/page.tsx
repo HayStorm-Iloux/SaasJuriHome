@@ -6,6 +6,9 @@ import Link from "next/link"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { createAGO } from "@/lib/actionsAGO"
+import { prisma } from "@/lib/db"
+import { redirect } from "next/navigation"
+import { getUser } from "@/lib/actionsUsers"
 import {
     Select,
     SelectContent,
@@ -17,19 +20,20 @@ import {
 } from "@/components/ui/select"
 import { useState } from "react";
 interface Participant {
-    gender: string;
+    sexe: string;
     firstName: string;
     lastName: string;
-    shares: number;
+    shares: string;
   }
   
-export default function CreatePage() {
+export default async function CreatePage() {
+
     const [participants, setParticipants] = useState<Participant[]>([
-        { gender: "", firstName: "", lastName: "", shares: 0 },
+        { sexe: "", firstName: "", lastName: "", shares: "" },
       ]);
     
       const handleAddParticipant = () => {
-        setParticipants([...participants, { gender: "", firstName: "", lastName: "", shares: 0 }]);
+        setParticipants([...participants, { sexe: "", firstName: "", lastName: "", shares: "" }]);
       };
     
       const handleRemoveParticipant = (index: number) => {
@@ -86,7 +90,7 @@ export default function CreatePage() {
                     </div>
                     <div className="gap-y-2 flex flex-col w-1/3">
                         <Label htmlFor="postal">Code Postal</Label>
-                        <Input type="number" id="postal" name="postal" min="0" placeholder="ex : 59000" required/>
+                        <Input type="number" id="postal" name="postal" min="0" max="99999" placeholder="ex : 59000" required/>
                     </div>
                     <div className="gap-y-2 flex flex-col w-1/3">
                         <Label htmlFor="ville">Ville</Label>
@@ -95,7 +99,7 @@ export default function CreatePage() {
                 </div>
                 <div className="gap-y-2 flex flex-col">
                     <Label htmlFor="siret">Numéro de SIRET</Label>
-                    <Input type="number" id="siret" name="siret" min="0" placeholder="ex : 123456789" required/>
+                    <Input type="number" id="siret" name="siret" min="0" max="999999999" placeholder="ex : 123456789" required/>
                 </div>
                 <div className="gap-y-2 flex flex-col">
                     <Label htmlFor="rcs">RCS</Label>
@@ -471,7 +475,7 @@ export default function CreatePage() {
                             <SelectGroup>
                             <SelectLabel>81 - Tarn</SelectLabel>
                             <SelectItem value="RCS Albi">Albi</SelectItem>
-                            <SelectItem value="RCS Albi">Castres</SelectItem>
+                            <SelectItem value="RCS Castres">Castres</SelectItem>
                             </SelectGroup>
                             <SelectGroup>
                             <SelectLabel>82 - Tarn-et-Garonne</SelectLabel>
@@ -571,20 +575,20 @@ export default function CreatePage() {
                         ): (<Label htmlFor="participant">Participant {index} :</Label>)}
                         </div>
                         <div className="gap-y-2 flex flex-col w-1/4">
-                        <Label htmlFor={`gender-${index}`}>Sexe</Label>
+                        <Label htmlFor={`sexe-${index}`}>Sexe</Label>
                         <Select
-                            name={`gender-${index}`}
-                            value={participant.gender}
-                            onValueChange={(value) => handleParticipantChange(index, "gender", value as string)}
+                            name={`sexe-${index}`}
+                            value={participant.sexe}
+                            onValueChange={(value) => handleParticipantChange(index, "sexe", value as string)}
                             required
                         >
                             <SelectTrigger>
-                            <SelectValue placeholder="ex : Homme" />
+                            <SelectValue placeholder="ex : Monsieur" />
                             </SelectTrigger>
                             <SelectContent>
                             <SelectGroup>
-                                <SelectItem value="Homme">Homme</SelectItem>
-                                <SelectItem value="Femme">Femme</SelectItem>
+                                <SelectItem value="Monsieur">Monsieur</SelectItem>
+                                <SelectItem value="Madame">Madame</SelectItem>
                             </SelectGroup>
                             </SelectContent>
                         </Select>
@@ -621,7 +625,7 @@ export default function CreatePage() {
                             id={`shares-${index}`}
                             name={`shares-${index}`}
                             value={participant.shares}
-                            onChange={(e) => handleParticipantChange(index, "shares", parseInt(e.target.value, 10))}
+                            onChange={(e) => handleParticipantChange(index, "shares", e.target.value)}
                             min="0"
                             placeholder="ex : 10"
                             required
@@ -646,6 +650,7 @@ export default function CreatePage() {
                     </Button>
                     </div>
                 </div>
+                <input type="hidden" name="participants" value={JSON.stringify(participants)} />
                 <div className="gap-y-2 flex flex-col">
                     <Label htmlFor="exerciceDate">Date de cloture de l'exercice social</Label>
                     <Input type="date" id="exerciceDate" name="exerciceDate" required/>
@@ -657,7 +662,7 @@ export default function CreatePage() {
                     </div>
                     <div className="gap-y-2 flex flex-col w-1/3">
                         <Label htmlFor="postalPerso">Code Postal</Label>
-                        <Input type="number" id="postalPerso" name="postalPerso" min="0" placeholder="ex : 59000" required/>
+                        <Input type="number" id="postalPerso" name="postalPerso" min="0" max="99999" placeholder="ex : 59000" required/>
                     </div>
                     <div className="gap-y-2 flex flex-col w-1/3">
                         <Label htmlFor="villePerso">Ville</Label>
@@ -683,6 +688,7 @@ export default function CreatePage() {
                 </div>
                 <p>sinon</p>
                 <table className="border-collapse border border-black">
+                    <tbody>
                     <tr>
                         <th rowSpan={2} className="border border-black p-2">Exercice clos le</th>
                         <th colSpan={2} className="border border-black p-2">Revenus éligibles à<br/> l'abattement</th>
@@ -731,6 +737,7 @@ export default function CreatePage() {
                         <td className="border border-black p-2"><Input type='number' min="0" id="montant32" name="montant32" className="w-full" placeholder="0 €"/></td>
                         <td className="border border-black p-2"><Input type='number' min="0" id="montant33" name="montant33" className="w-full" placeholder="0 €"/></td>
                     </tr>
+                    </tbody>
                     </table>
 
                 </div>

@@ -89,36 +89,36 @@ model Ago {
   id String @id @unique @default(cuid())
   societeName String?
   societeType String?
-  capitalAmount Int?
+  capitalAmount String?
   adresse String?
-  postal Int?
+  postal String?
   ville String?
-  siret Int?
+  siret String?
   rcs String?
-  meetingDate DateTime?
+  meetingDate String?
   meetingTime String?
   participants Participants[]
-  exerciceDate DateTime?
+  exerciceDate String?
   adressePerso String?
-  postalPerso Int?
+  postalPerso String?
   villePerso String?
   benef String?
   deficite String?
-  n1Date DateTime?
-  n1DateAGO DateTime?
-  montant11 Int?
-  montant12 Int?
-  montant13 Int?
-  n2Date DateTime?
-  n2DateAGO DateTime?
-  montant21 Int?
-  montant22 Int?
-  montant23 Int?
-  n3Date DateTime?
-  n3DateAGO DateTime?
-  montant31 Int?
-  montant32 Int?
-  montant33 Int?
+  n1Date String?
+  n1DateAGO String?
+  montant11 String?
+  montant12 String?
+  montant13 String?
+  n2Date String?
+  n2DateAGO String?
+  montant21 String?
+  montant22 String?
+  montant23 String?
+  n3Date String?
+  n3DateAGO String?
+  montant31 String?
+  montant32 String?
+  montant33 String?
   completed Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -131,9 +131,9 @@ model Participants {
   sexe String?
   firstName String?
   lastName String?
-  shares Int?
+  shares String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  ago Ago @relation(fields: [agoId], references: [id])
+  ago Ago @relation(fields: [agoId], references: [id], onDelete: Cascade)
   agoId String
 }

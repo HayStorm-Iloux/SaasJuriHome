@@ -67,6 +67,60 @@ CREATE TABLE "Notes" (
     CONSTRAINT "Notes_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
+-- CreateTable
+CREATE TABLE "Ago" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "societeName" TEXT,
+    "societeType" TEXT,
+    "capitalAmount" TEXT,
+    "adresse" TEXT,
+    "postal" TEXT,
+    "ville" TEXT,
+    "siret" TEXT,
+    "rcs" TEXT,
+    "meetingDate" TEXT,
+    "meetingTime" TEXT,
+    "exerciceDate" TEXT,
+    "adressePerso" TEXT,
+    "postalPerso" TEXT,
+    "villePerso" TEXT,
+    "benef" TEXT,
+    "deficite" TEXT,
+    "n1Date" TEXT,
+    "n1DateAGO" TEXT,
+    "montant11" TEXT,
+    "montant12" TEXT,
+    "montant13" TEXT,
+    "n2Date" TEXT,
+    "n2DateAGO" TEXT,
+    "montant21" TEXT,
+    "montant22" TEXT,
+    "montant23" TEXT,
+    "n3Date" TEXT,
+    "n3DateAGO" TEXT,
+    "montant31" TEXT,
+    "montant32" TEXT,
+    "montant33" TEXT,
+    "completed" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    "userId" TEXT NOT NULL,
+    CONSTRAINT "Ago_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "Participants" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "sexe" TEXT,
+    "firstName" TEXT,
+    "lastName" TEXT,
+    "shares" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    "agoId" TEXT NOT NULL,
+    CONSTRAINT "Participants_agoId_fkey" FOREIGN KEY ("agoId") REFERENCES "Ago" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
@@ -93,3 +147,9 @@ CREATE UNIQUE INDEX "Subscription_userId_key" ON "Subscription"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Notes_id_key" ON "Notes"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Ago_id_key" ON "Ago"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Participants_id_key" ON "Participants"("id");
