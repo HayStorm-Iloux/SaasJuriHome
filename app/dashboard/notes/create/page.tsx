@@ -27,7 +27,7 @@ export default function CreatePage() {
                 </div>
                 <div className="gap-y-2 flex flex-col">
                     <Label htmlFor="completed">En attente ou complet</Label>
-                    <Input type="checkbox" id="completed" name="completed" placeholder="Titre de votre note" className="w-6 cursor-pointer"/>
+                    <Input type="checkbox" id="completed" name="completed" className="w-6 cursor-pointer"/>
                 </div>
             </CardContent>
             <CardFooter className="flex items-center justify-between">

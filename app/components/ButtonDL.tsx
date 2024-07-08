@@ -2,8 +2,17 @@
 import { Button } from '@/components/ui/button'
 import { Download } from 'lucide-react'
 import React, { useState, useEffect, useRef } from 'react'
+import ButtonDownload from "@/app/components/ButtonDownload"
+import ButtonDownload2 from "@/app/components/ButtonDownload2"
+import ButtonDownload3 from "@/app/components/ButtonDownload3"
+import ButtonDownload4 from "@/app/components/ButtonDownload4"
+import ButtonDownload5 from "@/app/components/ButtonDownload5"
 
-export default function ButtonDL() {
+interface DownloadProps {
+    id: string;
+  }
+
+export default function ButtonDL({ id }: DownloadProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -28,21 +37,16 @@ export default function ButtonDL() {
   return (
     <div className='relative inline-block text-left font-semibold' ref={dropdownRef}>
       <Button type="button" className="bg-orange-500 text-white rounded" onClick={toggleDropdown}>
-        <Download className=""/>
+        <Download/>
       </Button>
       {isOpen && (
         <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-56 bg-white border border-gray-200 rounded shadow-lg z-10">
           <div>
-            <Button className='w-full px-4 py-2 bg-white text-gray-700 hover:bg-gray-100 border-b border-gray-300'>Baptiste</Button>
-            {[...Array(7)].map((_, index) => (
-              <button
-                key={index}
-                type="button"
-                className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 border-b border-gray-300"
-              >
-                Option {index + 1}
-              </button>
-            ))}
+          <ButtonDownload id={id}/>
+          <ButtonDownload2 id={id}/>
+          <ButtonDownload3 id={id}/>
+          <ButtonDownload4 id={id}/>
+          <ButtonDownload5 id={id}/>
           </div>
         </div>
       )}
