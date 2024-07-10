@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { getUser } from "@/lib/actionsUsers"
@@ -8,6 +9,8 @@ import ButtonDL from "@/app/components/ButtonDL"
 import { Card } from "@/components/ui/card"
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
+import { useState } from "react"
+import ButtonCreate from "@/app/components/ButtonCreate"
 
 
 interface SearchParams {
@@ -53,11 +56,7 @@ export default async function PageNotes({ searchParams }: { searchParams: Search
             </Button>
             </Link>
           ) : (
-            <Link href="/dashboard/notes/createAGO">
-            <Button>
-              Créer une AGO
-            </Button>
-            </Link>
+            <ButtonCreate />
           )}
         
       </div>

@@ -7,8 +7,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { createAGO } from "@/lib/actionsAGO"
 import { prisma } from "@/lib/db"
-import { redirect } from "next/navigation"
-import { getUser } from "@/lib/actionsUsers"
+import { redirect, useRouter } from "next/navigation"
+import { getSub, getUser } from "@/lib/actionsUsers"
 import {
     Select,
     SelectContent,
@@ -18,7 +18,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 interface Participant {
     sexe: string;
     firstName: string;
@@ -26,27 +26,46 @@ interface Participant {
     shares: string;
   }
   
-export default async function CreatePage() {
+  
+export default function CreatePage() {
 
+    const router = useRouter();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const sub = await getSub();
+            console.log(sub);
+            const hasActiveSubscription = sub?.subscription.some(
+                (subscription) => subscription.status === "active"
+            );
+            if (!hasActiveSubscription) {
+                router.push("/dashboard/payment");
+            }
+        };
+        fetchData();
+    }, []);
+
+    
     const [participants, setParticipants] = useState<Participant[]>([
         { sexe: "", firstName: "", lastName: "", shares: "" },
-      ]);
+    ]);
     
-      const handleAddParticipant = () => {
-        setParticipants([...participants, { sexe: "", firstName: "", lastName: "", shares: "" }]);
-      };
-    
-      const handleRemoveParticipant = (index: number) => {
-        setParticipants(participants.filter((_, i) => i !== index));
-      };
-    
-      const handleParticipantChange = (index: number, field: keyof Participant, value: string | number) => {
-        setParticipants(
-          participants.map((participant, i) =>
-            i === index ? { ...participant, [field]: value } : participant
-          )
-        );
-      };
+    const handleAddParticipant = () => {
+    setParticipants([...participants, { sexe: "", firstName: "", lastName: "", shares: "" }]);
+    };
+
+    const handleRemoveParticipant = (index: number) => {
+    setParticipants(participants.filter((_, i) => i !== index));
+    };
+
+    const handleParticipantChange = (index: number, field: keyof Participant, value: string | number) => {
+    setParticipants(
+        participants.map((participant, i) =>
+        i === index ? { ...participant, [field]: value } : participant
+        )
+    );
+    };
+
   return (
     <Card>
         <form action={createAGO}>

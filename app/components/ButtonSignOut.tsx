@@ -15,7 +15,7 @@ export default function ButtonSignOut() {
 
   return (
     <div className="">
-      <Button onClick={handleSignOut} className="bg-green-600 hover:bg-green-700 text-white flex">
+      <Button onClick={handleSignOut} className="bg-red-600 hover:bg-red-700 text-white flex">
         <LogOut />
         <span className="hidden lg:block">Déconnexion</span>
       </Button>

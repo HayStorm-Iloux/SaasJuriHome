@@ -11,13 +11,6 @@ export default async function PagePayment() {
   const user = await getUser()
   const dataStripe = await getDataStripeUSer(user?.id as string)
 
-  const itemsPremium = [
-      {name: "Hébergement Web fiable et sécurisé"},
-      {name: "Conception Responsive et Conviviale"},
-      {name: "Fonctionnalités Avancées"},
-      {name: "Support Technique et Mises à Jour"},
-    ]
-
     if(dataStripe?.status === "active"){
       return (
         <div className="max-w-lg mx-auto space-y-4 my-3">
@@ -42,39 +35,73 @@ export default async function PagePayment() {
   
 
   return (
-    <div className="maw-w-lg mx-auto space-y-4 mt-3 ">
-      <Card className="flex flex-col">
-        <CardContent className="py-8">
-          <div>
-            <h3 className="text-md font-black uppercase bg-orange-900 bg-opacity-20 text-orange-500 p-3 rounded-md inline">
-              Pass Prenium
-            </h3>
+    <section className="h-auto w-full ">
+        <h1 id="tarifs" className="font-bold text-4xl mb-8">Nos Offres :</h1>
+        <div className="flex flex-col lg:flex-row items-center justify-around">
+            <div className="bg-green-700 w-4/6 lg:w-3/12 flex flex-col px-4 py-4 rounded-xl border-2 border-green-700">
+              <div className="bg-[#faf5ef] h-1/3 px-4 py-4 rounded-xl flex flex-col shadow-xl">
+                <h2 className="font-semibold text-xl text-green-700 ">Offre Mensuelle</h2>
+                <h1 className="font-bold text-3xl my-4 md:text-center">29€99</h1>
+                <form action={createSubscription} className="">
+                  <Button className="bg-green-700 hover:bg-green-800 text-white">Commencer</Button>
+                </form>
+              </div>
+              <div className="mt-6 px-4">
+                  <h3 className="text-sm font-bold text-white">Inclus :</h3>
+                  <ul className="mt-2 font-semibold list-disc list-inside text-white space-y-1">
+                    <li>CRAs illimités</li>
+                    <li>Clients illimités</li>
+                    <li>Signature numérique</li>
+                    <li>Génération de PDF</li>
+                    <li>Time tracker</li>
+                    <li>Reporting</li>
+                  </ul>
+              </div>
           </div>
-          <div className="mt-4 text-6xl font-black">
-            <span>29,99€</span><span className="text-sm text-muted-foreground">/ par mois</span>
-
+          <div className="bg-purple-700 w-5/6 lg:w-3/12 flex flex-col px-4 py-4 rounded-xl">
+            <h2 className="text-center text-white pb-2 underline underline-offset-2 font-bold">Best Seller ! eco 5%</h2>
+            <div className="bg-[#faf5ef] h-1/3 px-4 py-4 rounded-xl flex flex-col shadow-xl">
+              <h2 className="font-semibold text-xl text-purple-700">Offre 6 mois</h2>
+              <h1 className="font-bold text-3xl my-4 md:text-center">89€99</h1>
+              <form action={createSubscription} className="">
+                <Button className="bg-purple-700 hover:bg-purple-800 text-white">Commencer</Button>
+              </form>
+            </div>
+            <div className="mt-6 px-4">
+              <h3 className="text-sm font-bold text-white">Inclus :</h3>
+              <ul className="mt-2 font-semibold list-disc list-inside text-white space-y-1">
+                <li>CRAs illimités</li>
+                <li>Clients illimités</li>
+                <li>Signature numérique</li>
+                <li>Génération de PDF</li>
+                <li>Time tracker</li>
+                <li>Reporting</li>
+              </ul>
+            </div>
           </div>
-          <p className="mt-4 text-muted-foreground">
-            Découvrez les Plaisirs exvlusifs de notre Pass Prenium.
-            Avec le Pass Prenium, vous bénéficiez d'un hébergement web fiable et sécurisé, d'une conception responsive et conviviale, de fonctionnalités avancées, d'un support technique et de mises à jour.
-          </p>
-          <div className="flex-1 flex  flex-col justify-between px-6 py-4 bg-secondary rounded-lg m-1 space-t-6 p-3 mt-4">
-            <ul className="space-y-3">
-              {itemsPremium.map((item, index) => (
-                <li key={index} className="flex items-center gap-2 text-muted-foreground">
-                  <span>✅</span>
-                  <span>{item.name}</span>
-                </li>
-              ))}
-            </ul>
 
-            <form action={createSubscription} className="w-full mt-4">
-              <Button className="bg-orange-500 hover:bg-orange-600 text-white">Devenir membre Prenium</Button>
-            </form>
+          <div className="bg-green-700 w-5/6 lg:w-3/12 flex flex-col px-4 py-4 rounded-xl border-2 border-green-700">
+          <h2 className="text-center font-bold text-white pb-2 underline underline-offset-2">economiser 11%</h2>
+              <div className="bg-[#faf5ef] h-1/3 px-4 py-4 rounded-xl flex flex-col shadow-xl">
+                <h2 className="font-semibold text-xl text-green-700">Offre Annuelle</h2>
+                <h1 className="font-bold text-3xl my-4 md:text-center">109€99</h1>
+                <form action={createSubscription} className="">
+                  <Button className="bg-green-700 hover:bg-green-800 text-white">Commencer</Button>
+                </form>
+              </div>
+              <div className="mt-6 px-4">
+                  <h3 className="text-sm font-bold text-white">Inclus :</h3>
+                  <ul className="mt-2 font-semibold list-disc list-inside text-white space-y-1 flex flex-col">
+                    <li>CRAs illimités</li>
+                    <li>Clients illimités</li>
+                    <li>Signature numérique</li>
+                    <li>Génération de PDF</li>
+                    <li>Time tracker</li>
+                    <li>Reporting</li>
+                  </ul>
+              </div>
           </div>
-        </CardContent>
-      </Card>
-
-    </div>
+        </div>
+      </section>
   )
 }

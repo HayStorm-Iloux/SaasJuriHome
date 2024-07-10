@@ -11,7 +11,8 @@ export default function DashboardNav() {
   const pathname = usePathname()
 
   const menuDashboard = [
-    { name: "Notes", icon: NotebookPen, path: "/dashboard/notes" },
+    { name: "AGO", icon: NotebookPen, path: "/dashboard/notes" },
+    { name: "AGE", icon: NotebookPen, path: "/dashboard/age" },
     { name: "Settings", icon: Settings, path: "/dashboard/settings" },
     { name: "Paiement", icon: CreditCard , path: "/dashboard/payment" },
   ];
@@ -40,7 +41,7 @@ export default function DashboardNav() {
           );
         })}
       </div>
-      <div className="mt-2">
+      <div className="ml-2 sm:ml-0 mt-0 sm:mt-2 ">
         <ButtonSignOut />
       </div>
     </nav>

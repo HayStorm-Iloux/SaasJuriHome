@@ -147,12 +147,12 @@ export default function Home() {
         </div>
         <div className="w-1/2 mt-8 hidden lg:block">
           <Image
-            src="/test.avif"
+            src="/ago.png"
             alt="home"
             width={1365}
             height={875}
             priority
-            className="rounded-lg h-auto"
+            className="rounded-lg h-auto border border-gray-300 shadow-2xl"
             style={{
               position: 'absolute',
               right: '-25%',

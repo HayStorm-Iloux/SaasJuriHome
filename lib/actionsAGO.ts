@@ -5,6 +5,7 @@ import { prisma } from "./db";
 import { getUser } from "./actionsUsers";
 import { revalidatePath } from "next/cache";
 import { Participants } from "@prisma/client";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export const getAllAGOs = async (userId: string) => {
     const data = await prisma.ago.findMany({
@@ -12,7 +13,7 @@ export const getAllAGOs = async (userId: string) => {
             userId: userId
         },
         orderBy: {
-            createdAt: "desc"
+            createdAt: "desc",
         },
         include: {
             participants: true

@@ -22,6 +22,15 @@ export const getUser = async()=> {
   return user;
 }
 
+export const getSub = async () => {
+  const user = await getUser();
+  const sub = await prisma.user.findUnique({
+    where: { id: user?.id },
+    include: { subscription: true },
+  });
+
+  return sub;
+}
 
 export const updateUser = async (formData: FormData) => {
   try {

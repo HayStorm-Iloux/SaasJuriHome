@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { getAGO, updateAGO } from "@/lib/actionsAGO";
+import { getAGO, createAGO } from "@/lib/actionsAGO";
 import {
     Select,
     SelectContent,
@@ -31,7 +31,6 @@ interface UpdatePageProps {
 }
 
 export default function UpdatePage({ params }: UpdatePageProps) {
-
     const router = useRouter();
 
     useEffect(() => {
@@ -89,7 +88,7 @@ export default function UpdatePage({ params }: UpdatePageProps) {
 
     return (
         <Card>
-            <form action={updateAGO}>
+            <form action={createAGO}>
                 <Input type="hidden" name="id" value={ago.id} />
                 <CardHeader>
                     <CardTitle>Modifier AGO</CardTitle>
