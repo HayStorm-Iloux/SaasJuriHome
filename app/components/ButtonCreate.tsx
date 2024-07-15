@@ -42,24 +42,24 @@ const CreateAGOPopup = () => {
           <div className="bg-white p-6 rounded-lg shadow-lg w-3/4 max-w-3xl ">
             <h2 className="text-2xl font-bold mb-4">Créer une AGO :</h2>
             <div className="flex justify-between gap-6">
-              <div className="flex items-center flex-col justify-center w-1/2 bg-green-600  rounded-xl shadow-lg py-4 ">
+              <div className="flex items-center flex-col justify-center w-1/2 border-2 border-green-700 rounded-2xl shadow-lg py-4 ">
                 <h3 className="text-xl font-semibold mb-2">Nouvelle AGO :</h3>
-                <Link href="/dashboard/notes/createAGO">
-                  <Button className='bg-white border-2 border-gray-700 hover:bg-[#f7e0c3] w-[100px] h-[100px] rounded-xl text-green-600 hover:text-gray-800'><Plus size={60}/></Button>
+                <Link href="/dashboard/createAGO">
+                  <Button className='bg-white border-2 border-green-700 hover:bg-[#f7e0c3] w-[100px] h-[100px] rounded-xl text-green-600 hover:text-gray-800'><Plus size={60}/></Button>
                 </Link>
               </div>
-              <div className="flex flex-1 flex-col w-1/2 bg-green-600  rounded-xl shadow-lg p-4">
-                <h3 className="text-xl font-semibold mb-2 text-center">À partir :</h3>
+              <div className="flex flex-1 flex-col w-1/2 rounded-2xl border-2 border-green-700 shadow-lg p-4">
+                <h3 className="text-xl font-semibold mb-2 text-center">À partir de :</h3>
                 {agos.length > 0 ? (
                   <ul className={`max-h-48 overflow-y-auto hideScrollbar`}>
 
                     {agos.map((ago) => (
                       
-                      <li key={ago.id} className="flex justify-between items-center border-2 bg-white mb-2 border-gray-700 rounded-lg p-2 text-gray-900 font-semibold hover:bg-[#f7e0c3]">
-                        <Link href={`/dashboard/notes/createAGO/${ago.id}`} className='w-full '>
+                      <li key={ago.id} className="flex justify-between items-center border-2 bg-white mb-2 border-green-700 rounded-lg p-2 text-gray-900 font-semibold hover:bg-[#f7e0c3]">
+                        <Link href={`/dashboard/createAGO/${ago.id}`} className='w-full '>
                           <div className='flex items-center justify-between'>
                             <div className='flex flex-col'>
-                              <span>{ago.societeName}</span>
+                              <span className='text-green-700 font-bold'>{ago.societeName}</span>
                               <p className="text-sm text-muted-foreground">
                                 écrit le{" "}
                                 {new Intl.DateTimeFormat("fr-FR", {
@@ -78,7 +78,7 @@ const CreateAGOPopup = () => {
                     ))}
                   </ul>
                 ) : (
-                  <p>Aucune AGO existante</p>
+                  <p className='text-center pt-6'>Aucune AGO existante</p>
                 )}
               </div>
             </div>

@@ -91,7 +91,7 @@ export default async function PageNotes({ searchParams }: { searchParams: Search
               </Button>
             </Link>
           ) : (
-            <Link href="/dashboard/notes/create">
+            <Link href="/dashboard/createAGO">
               <Button className="bg-green-500 hover:bg-green-600 text-white mt-4">
                 Créer une nouvelle AGO
               </Button>
@@ -114,7 +114,7 @@ export default async function PageNotes({ searchParams }: { searchParams: Search
               </div>
               <div className="flex items-center gap-2">
                     <ButtonDL id={item.id}/>
-                    <Link href={`notes/ago/${item.id}`}>
+                    <Link href={`ago/${item.id}`}>
                     <Button type="button" className="bg-gray-400 hover:bg-gray-700 text-white">
                       <FilePenLine/>
                       </Button>

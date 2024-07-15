@@ -95,13 +95,35 @@ model Ago {
   ville String?
   siret String?
   rcs String?
+  partsNumber String?
   meetingDate String?
   meetingTime String?
   participants Participants[]
+  approbationCompte Boolean @default(false)
+  affectation Boolean @default(false)
+  approbationBoss Boolean @default(false)
+  pouvoir Boolean @default(false)
+  lecture Boolean @default(false)
+  fixation Boolean @default(false)
+  distribution Boolean @default(false)
+  absence Boolean @default(false)
   exerciceDate String?
+  sexeCommissaire String?
+  prenomCommissaire String?
+  nomCommissaire String?
+  presenceCommissaire Boolean @default(false)
   adressePerso String?
   postalPerso String?
   villePerso String?
+  sexeComptable String?
+  prenomComptable String?
+  nomComptable String?
+  societeNameComptable String?
+  adresseComptable String?
+  postalComptable String?
+  villeComptable String?
+  siretComptable String?
+  rcsComptable String?
   benef String?
   deficite String?
   n1Date String?
@@ -132,6 +154,9 @@ model Participants {
   firstName String?
   lastName String?
   shares String?
+  remuneration String?
+  remunerationFuture String?
+  gerant Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   ago Ago @relation(fields: [agoId], references: [id], onDelete: Cascade)

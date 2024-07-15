@@ -22,7 +22,7 @@ export default function Home() {
 
   useEffect(() => {
     if (session) {
-      redirect("/dashboard/notes");
+      redirect("/dashboard");
     }
     console.log(session)
   }, [session]);

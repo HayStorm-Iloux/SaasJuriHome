@@ -11,7 +11,7 @@ export default function DashboardNav() {
   const pathname = usePathname()
 
   const menuDashboard = [
-    { name: "AGO", icon: NotebookPen, path: "/dashboard/notes" },
+    { name: "AGO", icon: NotebookPen, path: "/dashboard" },
     { name: "AGE", icon: NotebookPen, path: "/dashboard/age" },
     { name: "Settings", icon: Settings, path: "/dashboard/settings" },
     { name: "Paiement", icon: CreditCard , path: "/dashboard/payment" },
@@ -30,7 +30,7 @@ export default function DashboardNav() {
       </div>
       <div className='flex flex-row sm:flex-col w-full'>
         {menuDashboard.map((link, index) => {
-          const isActive = pathname.startsWith(link.path);
+          const isActive = pathname.endsWith(link.path);
           return (
             <Link href={link.path} key={index} passHref>
               <div className={`flex items-center justify-center lg:justify-start gap-2 cursor-pointer p-3 hover:bg-green-600 hover:bg-opacity-50 hover:text-white text-sm font-bold rounded-md ${isActive && "bg-green-600 text-white"}`}>

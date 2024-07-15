@@ -96,7 +96,7 @@ export default function UpdatePage({ params }: UpdatePageProps) {
                 </CardHeader>
                 <CardContent className="flex flex-col gap-y-5 ">
                     <div className="gap-y-2 flex flex-col">
-                        <Label htmlFor="societeName">Nom de la société</Label>
+                        <Label htmlFor="societeName">Dénomination sociale</Label>
                         <Input type="text" id="societeName" name="societeName" defaultValue={ago.societeName} required />
                     </div>
                     <div className="gap-y-2 flex flex-col">
@@ -113,8 +113,6 @@ export default function UpdatePage({ params }: UpdatePageProps) {
                                     <SelectItem value="Société par Actions Simplifiée Unipersonnelle (SASU)">SASU - Société par Actions Simplifiée Unipersonnelle</SelectItem>
                                     <SelectItem value="Société en Nom Collectif (SNC)">SNC - Société en Nom Collectif</SelectItem>
                                     <SelectItem value="Société Civile Immobilière (SCI)">SCI - Société Civile Immobilière</SelectItem>
-                                    <SelectItem value="Entreprise Individuelle (EI)">EI - Entreprise Individuelle</SelectItem>
-                                    <SelectItem value="Auto-Entreprise (Micro-Entreprise)">Micro-Entreprise - Auto-Entreprise</SelectItem>
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
@@ -783,7 +781,7 @@ export default function UpdatePage({ params }: UpdatePageProps) {
                     </div>
                 </CardContent>
                 <CardFooter className="flex items-center justify-between">
-                    <Link href="/dashboard/notes">
+                    <Link href="/dashboard">
                         <Button type="button" className="bg-red-500 hover:bg-red-600 text-white">
                             Annuler
                         </Button>

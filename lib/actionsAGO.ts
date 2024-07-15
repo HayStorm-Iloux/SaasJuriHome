@@ -100,13 +100,16 @@ export const createAGO = async (formData: FormData) => {
                     firstName: participant.firstName,
                     lastName: participant.lastName,
                     shares: participant.shares,
+                    remuneration: participant.remuneration,
+                    remunerationFuture: participant.remunerationFuture,
+                    gerant: participant.gerant,
                 })),
             },
         
     }
 });
 
-    redirect("/dashboard/notes");
+    redirect("/dashboard");
 }
 
 export const searchAGOs = async (userId: string, searchTerm: string) => {
@@ -199,6 +202,9 @@ export const updateAGO = async (formData: FormData) => {
                 firstName: participant.firstName,
                 lastName: participant.lastName,
                 shares: participant.shares,
+                remuneration: participant.remuneration,
+                remunerationFuture: participant.remunerationFuture,
+                gerant: participant.gerant,
             })),
         });
 
