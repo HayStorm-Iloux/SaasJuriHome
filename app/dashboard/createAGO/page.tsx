@@ -42,10 +42,10 @@ export default function CreatePage() {
     const checkboxItems = [
         { name: "approbationCompte", label: "Approbation des comptes de l'exercice clos et quitus à la gérance" },
         { name: "affectation", label: "Affectation du résultat de l'exercice" },
-        { name: "approbationBoss", label: "Approbation de la rémunération allouée aux Gérants" },
+        { name: "approbationBoss", label: "Approbation de la rémunération allouée aux dirigeants" },
         { name: "pouvoir", label: "Pouvoirs pour l'accomplissement des formalités" },
         { name: "lecture", label: "Lecture du rapport spécial sur les conventions visées à l'article L. 223-19 du Code de commerce, et décision à cet égard" },
-        { name: "fixation", label: "Fixation de la rémunération aux Gérants" },
+        { name: "fixation", label: "Fixation de la rémunération aux dirigeants" },
         { name: "distribution", label: "Distribution de dividende" },
         { name: "absence", label: "Absence de rémunération du dirigeant" },
     ];
@@ -1648,7 +1648,7 @@ export default function CreatePage() {
                 <div>
                 <p>1 - Si report à nouveau créditeur antérieur alors apurer en totalité ou en partie le déficit si le report ne permet pas de couvrir la totalité</p>
                 <p>2 - Si réserve antérieur alors apurer en totalité ou en partie le déficit si la réserve ne permet pas de couvrir la totalité</p>
-                <p>3 - mettre le solde en report à nouveau débiteur</p>
+                <p>3 - Mettre le solde en report à nouveau débiteur</p>
                 <p>4 - Possibilité de distribution de dividendes s'il reste de l'argent en réserve après l'apuration de la totalité du déficit</p>
                 </div>
                 )}

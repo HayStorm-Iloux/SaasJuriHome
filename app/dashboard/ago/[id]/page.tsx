@@ -936,7 +936,7 @@ export default function UpdatePage({ params }: UpdatePageProps) {
                         
                         <div className="flex items-center justify-start gap-4">                          
                             <Input type="checkbox" className="w-6" onChange={handlesetc3} id="approbationBoss" defaultChecked={ago.approbationBoss} name="approbationBoss"/>
-                            <Label htmlFor="approbationBoss">Approbation de la rémunération allouée aux Gérants</Label>
+                            <Label htmlFor="approbationBoss">Approbation de la rémunération allouée aux dirigeants</Label>
                             {c3 && (
                                 <label
                                 htmlFor="approbationBossShares"
@@ -1005,7 +1005,7 @@ export default function UpdatePage({ params }: UpdatePageProps) {
 
                         <div className="flex items-center justify-start gap-4">  
                             <Input type="checkbox" className="w-6" onChange={handlesetc6} id="fixation" defaultChecked={ago.fixation} name="fixation"/>
-                            <Label htmlFor="fixation">Fixation de la rémunération aux Gérants</Label>
+                            <Label htmlFor="fixation">Fixation de la rémunération aux dirigeants</Label>
                             {c6 && (
                                 <label
                                 htmlFor="fixationShares"
@@ -1723,7 +1723,7 @@ export default function UpdatePage({ params }: UpdatePageProps) {
                 {c3 && (
                 <div className="gap-y-2 flex space-x-5">
                 <div className="gap-y-2 flex flex-col w-full border-2 border-green-700 p-4">
-                <Label className="text-green-700 text-xl font-bold underline underline-offset-2">Approbation de la rémunération allouée aux Gérants :</Label>
+                <Label className="text-green-700 text-xl font-bold underline underline-offset-2">Approbation de la rémunération allouée aux dirigeants au cours de l'exercice écoulé :</Label>
                     {participants
                         .filter(participant => participant.gerant)
                         .map((participant, index) => (
@@ -1732,7 +1732,7 @@ export default function UpdatePage({ params }: UpdatePageProps) {
                                   <p key={index}>{participant.sexe} {participant.lastName} {participant.firstName}</p>  
                                 </div>
                             <div className="gap-y-2 flex flex-col">
-                            <Label htmlFor={`remuneration-${index}`}>Rémunération brute</Label>
+                            <Label htmlFor={`remuneration-${index}`}>Rémunération brute annuelle</Label>
                             <Input
                             type="number"
                             id={`remuneration-${index}`}
@@ -1753,7 +1753,7 @@ export default function UpdatePage({ params }: UpdatePageProps) {
                 {c6 && (
                 <div className="gap-y-2 flex space-x-5">
                 <div className="gap-y-2 flex flex-col w-full border-2 border-gray-700 p-4">
-                <Label className="text-gray-700 text-xl font-bold underline underline-offset-2">Fixation de la rémunération aux Gérants :</Label>
+                <Label className="text-gray-700 text-xl font-bold underline underline-offset-2">Fixation de la rémunération aux dirigeants :</Label>
                 <Label htmlFor="acompter">Date de mise en application</Label>
                 <Input className="border border-gray-300" defaultValue={ago.acompter} type="date" id="acompter" name="acompter" required/>
                     {participants
@@ -1764,7 +1764,7 @@ export default function UpdatePage({ params }: UpdatePageProps) {
                                     <p key={index}>{participant.sexe} {participant.lastName} {participant.firstName}</p>
                                 </div>
                             <div className="gap-y-2 flex flex-col">
-                            <Label htmlFor={`remunerationFuture-${index}`}>Rémunération fixée</Label>
+                            <Label htmlFor={`remunerationFuture-${index}`}>Rémunération fixée mensuelle</Label>
                             <Input
                             type="number"
                             id={`remunerationFuture-${index}`}
@@ -1884,7 +1884,7 @@ export default function UpdatePage({ params }: UpdatePageProps) {
                 <div>
                 <p>1 - Si report à nouveau créditeur antérieur alors apurer en totalité ou en partie le déficit si le report ne permet pas de couvrir la totalité</p>
                 <p>2 - Si réserve antérieur alors apurer en totalité ou en partie le déficit si la réserve ne permet pas de couvrir la totalité</p>
-                <p>3 - mettre le solde en report à nouveau débiteur</p>
+                <p>3 - Mettre le solde en report à nouveau débiteur</p>
                 <p>4 - Possibilité de distribution de dividendes s'il reste de l'argent en réserve après l'apuration de la totalité du déficit</p>
                 </div>
                 )}
