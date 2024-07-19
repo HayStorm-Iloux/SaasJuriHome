@@ -45,12 +45,12 @@ const CheckboxItem: React.FC<CheckboxItemProps> = ({ name, label, totalShares, o
           htmlFor={name}
           className="text-sm pl-6 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
-          Adopté à 
+          Voté à 
           <input 
             className="border border-1 w-12 mx-1 text-center"
             type="number"
             min="0"
-            name={`${name}-shares`}
+            name={`${name}Shares`}
             max={totalShares}
             value={adoptedShares}
             onChange={handleAdoptedSharesChange}

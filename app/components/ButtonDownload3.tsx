@@ -101,6 +101,19 @@ export default function ButtonDownload3({ id }: DownloadProps) {
 
     const fetchedAgo = await getAGO(id);
 
+    const premierGerant = fetchedAgo?.participants.find(participant => participant.gerant === true);
+
+    const nombreGerants = fetchedAgo?.participants.filter(participant => participant.gerant === true).length || 0;
+    const estSAS = fetchedAgo?.societeType === "Société par Actions Simplifiée (SAS)";
+
+// Déterminer le libellé approprié
+    let libelleGerant ;
+    if (estSAS) {
+      libelleGerant  = nombreGerants > 1 ? "président associé" : "président";
+    } else {
+      libelleGerant  = nombreGerants > 1 ? "gérant associé" : "gérant";
+    }
+
     const totalShares = fetchedAgo?.participants.reduce((total, participant) => {
       const shares = participant.shares ? parseInt(participant.shares) : 0;
       return total + shares;
@@ -196,7 +209,7 @@ export default function ButtonDownload3({ id }: DownloadProps) {
                 children: [new TextRun({ text: ''})],
                 alignment: 'center',
               }),
-              new Paragraph({ children: [new TextRun({ text: `Identité et qualité du représentant légal signataire : ${fetchedAgo?.participants[0]?.sexe || ''} ${(fetchedAgo?.participants[0]?.lastName as string).toUpperCase() || ''} ${fetchedAgo?.participants[0]?.firstName || ''}, gérant associé`, size: 24})], alignment: 'both',}),
+              new Paragraph({ children: [new TextRun({ text: `Identité et qualité du représentant légal signataire : ${premierGerant?.sexe} ${(premierGerant?.lastName as string).toUpperCase() || ''} ${premierGerant?.firstName}, ${libelleGerant}`, size: 24})], alignment: 'both',}),
               new Paragraph({
                 children: [new TextRun({ text: ''})],
                 alignment: 'center',
@@ -250,7 +263,7 @@ export default function ButtonDownload3({ id }: DownloadProps) {
                 alignment: 'center',
               }),  
               new Paragraph({ children: [new TextRun({ text: `${fetchedAgo?.participants[0]?.sexe || ''} ${(fetchedAgo?.participants[0]?.lastName as string).toUpperCase() || ''} ${fetchedAgo?.participants[0]?.firstName || ''}`, size: 24, bold: true})], alignment: 'center',}),
-              new Paragraph({ children: [new TextRun({ text: `Gérant Associé`, size: 24, bold: true})], alignment: 'center',}),
+              new Paragraph({ children: [new TextRun({ text: `${libelleGerant}`, size: 24, bold: true})], alignment: 'center',}),
               ],
           },
       ],

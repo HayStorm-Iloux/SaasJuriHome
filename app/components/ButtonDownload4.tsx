@@ -101,14 +101,37 @@ export default function ButtonDownload4({ id }: DownloadProps) {
 
     const fetchedAgo = await getAGO(id);
 
+    const premierGerant = fetchedAgo?.participants.find(participant => participant.gerant === true);
+
+    const nombreGerants = fetchedAgo?.participants.filter(participant => participant.gerant === true).length || 0;
+    const estSAS = fetchedAgo?.societeType === "Société par Actions Simplifiée (SAS)";
+
+// Déterminer le libellé approprié
+    let libelleGerant ;
+    if (estSAS) {
+      libelleGerant  = nombreGerants > 1 ? "président associé" : "président";
+    } else {
+      libelleGerant  = nombreGerants > 1 ? "gérant associé" : "gérant";
+    }
+
+    const estSeul = fetchedAgo?.societeType === "Société par Actions Simplifiée Unipersonnelle (SASU)" || fetchedAgo?.societeType === "Entreprise unipersonnelle à responsabilité limitée (EURL)";
+
+// Déterminer le libellé approprié
+    let titreAssemblee ;
+    if (estSeul) {
+      titreAssemblee  = "Associé Unique";
+    } else {
+      titreAssemblee  = "Assemblée Générale";
+    }
+
     const totalShares = fetchedAgo?.participants.reduce((total, participant) => {
       const shares = participant.shares ? parseInt(participant.shares) : 0;
       return total + shares;
     }, 0);
 
-    const deficitText = `L'Assemblée Générale décide d'affecter le déficit de l’exercice clos le ${formatDate(fetchedAgo?.exerciceDate as string)} s’élevant à ${parseFloat(fetchedAgo?.deficite as string).toLocaleString('fr-FR')} Euros de la façon suivante :`
-    const benefitText = `L'Assemblée Générale décide d'affecter le bénéfice de l’exercice clos le ${formatDate(fetchedAgo?.exerciceDate as string)} s’élevant à ${parseFloat(fetchedAgo?.benef as string).toLocaleString('fr-FR')} Euros de la façon suivante :`
-    const textToInclude = (fetchedAgo?.deficite !== '' && fetchedAgo?.deficite !== '0') ? deficitText : benefitText;
+    const deficitText = `L'${titreAssemblee} décide d'affecter le déficit de l’exercice clos le ${formatDate(fetchedAgo?.exerciceDate as string)} s’élevant à ${parseFloat(fetchedAgo?.deficite as string).toLocaleString('fr-FR')} Euros de la façon suivante :`
+    const benefitText = `L'${titreAssemblee} décide d'affecter le bénéfice de l’exercice clos le ${formatDate(fetchedAgo?.exerciceDate as string)} s’élevant à ${parseFloat(fetchedAgo?.benef as string).toLocaleString('fr-FR')} Euros de la façon suivante :`
+    const textToInclude = (fetchedAgo?.deficite !== '' && fetchedAgo?.deficite !== '0' && fetchedAgo?.deficite !== null) ? deficitText : benefitText;
 
     const doc = new Document({
       styles: {
@@ -189,7 +212,7 @@ export default function ButtonDownload4({ id }: DownloadProps) {
                     alignment: 'center',
                   }),
                   new Paragraph({
-                    children: [new TextRun({ text: (fetchedAgo?.deficite !== '' && fetchedAgo?.deficite !== '0') ? `Résultat déficitaire :        ${parseFloat(fetchedAgo?.deficite as string).toLocaleString('fr-FR')} Euros` : `Résultat Bénéficiaire :        ${parseFloat(fetchedAgo?.benef as string).toLocaleString('fr-FR')} Euros`, size: 24})],
+                    children: [new TextRun({ text: (fetchedAgo?.deficite !== '' && fetchedAgo?.deficite !== '0' && fetchedAgo?.deficite !== null) ? `Résultat déficitaire :        ${parseFloat(fetchedAgo?.deficite as string).toLocaleString('fr-FR')} Euros` : `Résultat Bénéficiaire :        ${parseFloat(fetchedAgo?.benef as string).toLocaleString('fr-FR')} Euros`, size: 24})],
                     alignment: 'both',
                   }),
                   new Paragraph({
@@ -205,7 +228,35 @@ export default function ButtonDownload4({ id }: DownloadProps) {
                     alignment: 'center',
                   }),
                   new Paragraph({
-                    children: [new TextRun({ text: 'Rajouter l\'affectation du résultat ici', size: 24})],
+                    children: [new TextRun({ text: (fetchedAgo?.a12 !== null && fetchedAgo?.a12 !== '0' && fetchedAgo?.a12 !== '') ? `Réserve légale :        ${parseFloat(fetchedAgo?.a12 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
+                    alignment: 'both',
+                  }),
+                  new Paragraph({
+                    children: [new TextRun({ text: (fetchedAgo?.a22 !== null && fetchedAgo?.a22 !== '0' && fetchedAgo?.a22 !== '') ? `Report à nouveau créditeur :        ${parseFloat(fetchedAgo?.a22 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
+                    alignment: 'both',
+                  }),
+                  new Paragraph({
+                    children: [new TextRun({ text: (fetchedAgo?.a32 !== null && fetchedAgo?.a32 !== '0' && fetchedAgo?.a32 !== '') ? `Distribution de dividendes :        ${parseFloat(fetchedAgo?.a32 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
+                    alignment: 'both',
+                  }),
+                  new Paragraph({
+                    children: [new TextRun({ text: (fetchedAgo?.a42 !== null && fetchedAgo?.a42 !== '0' && fetchedAgo?.a42 !== '') ? `Report à nouveau débiteur :        ${parseFloat(fetchedAgo?.a42 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
+                    alignment: 'both',
+                  }),
+                  new Paragraph({
+                    children: [new TextRun({ text: (fetchedAgo?.a52 !== null && fetchedAgo?.a52 !== '0' && fetchedAgo?.a52 !== '') ? `Autres réserves :        ${parseFloat(fetchedAgo?.a52 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
+                    alignment: 'both',
+                  }),
+                  new Paragraph({
+                    children: [new TextRun({ text: (fetchedAgo?.a62 !== null && fetchedAgo?.a62 !== '0' && fetchedAgo?.a62 !== '') ? `En diminution du compte « Report à nouveau » :        ${parseFloat(fetchedAgo?.a62 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
+                    alignment: 'both',
+                  }),
+                  new Paragraph({
+                    children: [new TextRun({ text: (fetchedAgo?.a72 !== null && fetchedAgo?.a72 !== '0' && fetchedAgo?.a72 !== '') ? `En diminution du compte « Report à nouveau » :        ${parseFloat(fetchedAgo?.a72 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
+                    alignment: 'both',
+                  }),
+                  new Paragraph({
+                    children: [new TextRun({ text: (fetchedAgo?.a82 !== null && fetchedAgo?.a82 !== '0' && fetchedAgo?.a82 !== '') ? `En diminution du compte « Autres réserves » :        ${parseFloat(fetchedAgo?.a82 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
                     alignment: 'both',
                   }),
                   new Paragraph({
@@ -220,14 +271,15 @@ export default function ButtonDownload4({ id }: DownloadProps) {
                     children: [new TextRun({ text: ''})],
                     alignment: 'center',
                   }),
-                  new Paragraph({
-                    children: [new TextRun({ text: 'Conformément aux dispositions de l\'article 243 bis du CGI, l\'assemblée générale rappelle le montant des dividendes distribués au titre des 3 précédents exercices :', size: 24})],
+                  fetchedAgo?.completed ? (new Paragraph({
+                    children: [new TextRun({ text: `Conformément aux dispositions de l'article 243 bis du CGI, l'${titreAssemblee} rappelle le montant des dividendes distribués au titre des 3 précédents exercices :`, size: 24})],
                     alignment: 'both',
                   }),
                   new Paragraph({
                     children: [new TextRun({ text: ''})],
                     alignment: 'center',
                   }),
+          
                   new Table({
                     rows: [
                         new TableRow({
@@ -426,15 +478,15 @@ export default function ButtonDownload4({ id }: DownloadProps) {
                         })
                     ],
                     alignment: 'center'
+                })):new Paragraph({
+                  children: [new TextRun({ text: `Conformément à la loi, l'${titreAssemblee} prend acte qu’il n’y a pas eu de dividendes distribués au cours des trois derniers exercices.`, size: 24})],
+                  alignment: 'both',
                 }),
                 new Paragraph({
                   children: [new TextRun({ text: ''})],
                   alignment: 'center',
                 }),
-                new Paragraph({
-                  children: [new TextRun({ text: 'Cette résolution est adoptée à l\'unanimité.', size: 24})],
-                  alignment: 'both',
-                }),
+                new Paragraph({ children: [new TextRun({ text: `${(fetchedAgo?.affectationShares === totalShares?.toString()) ? `Cette résolution est adoptée à l'unanimité.` : (fetchedAgo?.affectationShares === "0") ? `Cette résolution est rejetée à l'unanimité.` : `Cette résolution est ${Number(fetchedAgo?.affectationShares) < (totalShares as number)/2 ? `rejetée` : `adoptée`} à ${fetchedAgo?.affectationShares} voix sur ${totalShares}.`}`, size: 24})], alignment: 'both'}),
                 new Paragraph({
                   children: [new TextRun({ text: ''})],
                   alignment: 'center',
@@ -444,7 +496,7 @@ export default function ButtonDownload4({ id }: DownloadProps) {
                   alignment: 'center',
                 }),  
                 new Paragraph({ children: [new TextRun({ text: `${fetchedAgo?.participants[0]?.sexe || ''} ${(fetchedAgo?.participants[0]?.lastName as string).toUpperCase() || ''} ${fetchedAgo?.participants[0]?.firstName || ''}`, size: 24, bold: true})], alignment: 'center',}),
-                new Paragraph({ children: [new TextRun({ text: `Gérant Associé`, size: 24, bold: true})], alignment: 'center',}),
+                new Paragraph({ children: [new TextRun({ text: `${libelleGerant}`, size: 24, bold: true})], alignment: 'center',}),
               ],
           },
       ],

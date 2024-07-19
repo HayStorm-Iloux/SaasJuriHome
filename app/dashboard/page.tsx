@@ -114,7 +114,7 @@ export default async function PageNotes({ searchParams }: { searchParams: Search
               </div>
               <div className="flex items-center gap-2">
                     <ButtonDL id={item.id}/>
-                    <Link href={`ago/${item.id}`}>
+                    <Link href={`/dashboard/ago/${item.id}`}>
                     <Button type="button" className="bg-gray-400 hover:bg-gray-700 text-white">
                       <FilePenLine/>
                       </Button>

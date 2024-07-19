@@ -100,14 +100,23 @@ model Ago {
   meetingTime String?
   participants Participants[]
   approbationCompte Boolean @default(false)
+  approbationCompteShares String?
   affectation Boolean @default(false)
+  affectationShares String?
   approbationBoss Boolean @default(false)
+  approbationBossShares String?
   pouvoir Boolean @default(false)
+  pouvoirShares String?
   lecture Boolean @default(false)
+  lectureShares String?
   fixation Boolean @default(false)
+  fixationShares String?
   distribution Boolean @default(false)
+  distributionShares String?
   absence Boolean @default(false)
+  absenceShares String?
   exerciceDate String?
+  commissaire Boolean @default(false)
   sexeCommissaire String?
   prenomCommissaire String?
   nomCommissaire String?
@@ -124,8 +133,24 @@ model Ago {
   villeComptable String?
   siretComptable String?
   rcsComptable String?
+  acompter String?
+  nondeduc String?
+  convreg Boolean @default(false)
   benef String?
   deficite String?
+  a11 String?
+  a12 String?
+  a21 String?
+  a22 String?
+  a31 String?
+  a32 String?
+  a41 String?
+  a42 String?
+  a51 String?
+  a52 String?
+  a62 String?
+  a72 String?
+  a82 String?
   n1Date String?
   n1DateAGO String?
   montant11 String?

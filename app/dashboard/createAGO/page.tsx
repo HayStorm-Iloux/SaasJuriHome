@@ -3,12 +3,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
-import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { createAGO } from "@/lib/actionsAGO"
-import { prisma } from "@/lib/db"
-import { redirect, useRouter } from "next/navigation"
-import { getSub, getUser } from "@/lib/actionsUsers"
+import {  useRouter } from "next/navigation"
+import { getSub} from "@/lib/actionsUsers"
 import CheckboxItem from "@/app/components/ordreJour";
 import Tooltip from "@/app/components/Tooltip";
 import {
@@ -24,6 +22,10 @@ import { ChangeEvent, use, useEffect, useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch"
 import { HelpCircle } from "lucide-react";
+import Image from "next/image";
+
+
+
 interface Participant {
     gerant: boolean;
     sexe: string;
@@ -68,6 +70,8 @@ export default function CreatePage() {
     const [hasCommissaire, setHasCommissaire] = useState(false);
     const [isApprobationBossChecked, setIsApprobationBossChecked] = useState(false);
     const [isFixationChecked, setIsFixationChecked] = useState(false);
+    const [isAffectationChecked, setIsAffectationChecked]= useState(false);
+    const [isLectureChecked, setIsLectureChecked]= useState(false);
 
 
     useEffect(() => {
@@ -157,19 +161,19 @@ export default function CreatePage() {
     <Card>
         <form action={createAGO}>
             <CardHeader>
-                <CardTitle>Nouvelle Note</CardTitle>
-                <CardDescription>Quelques mot pour ne pas oublier</CardDescription>
+                <CardTitle className="text-3xl">Assemblée Générale Ordinaire</CardTitle>
+                <CardDescription>Créer votre AGO rapidement</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-y-5 ">
                 <div className="gap-y-2 flex flex-col">
                     <Label htmlFor="societeName">Dénomination sociale</Label>
-                    <Input type="text" id="societeName" name="societeName" placeholder="ex : OpenAI"required/>
+                    <Input type="text" className="border-gray-300 border" id="societeName" name="societeName" placeholder="ex : OpenAI"required/>
                 </div>
                 <div className="gap-y-2 flex flex-col">
                     <Label htmlFor="societeType">Type de société</Label>
                     <Select name="societeType" required>
-                        <SelectTrigger>
-                            <SelectValue placeholder="ex : SARL" />
+                        <SelectTrigger className="border border-gray-300">
+                            <SelectValue placeholder="-----------" />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
@@ -179,13 +183,14 @@ export default function CreatePage() {
                             <SelectItem value="Société par Actions Simplifiée Unipersonnelle (SASU)">SASU - Société par Actions Simplifiée Unipersonnelle</SelectItem>
                             <SelectItem value="Société en Nom Collectif (SNC)">SNC - Société en Nom Collectif</SelectItem>
                             <SelectItem value="Société Civile Immobilière (SCI)">SCI - Société Civile Immobilière</SelectItem>
+                            <SelectItem value="Entreprise unipersonnelle à responsabilité limitée (EURL)">EURL - Entreprise unipersonnelle à responsabilité limitée</SelectItem>
                             </SelectGroup>
                         </SelectContent>
                     </Select>
                 </div>
                 <div className="gap-y-2 flex flex-col">
                     <Label htmlFor="capitalAmount">Montant du capital (en euros)</Label>
-                    <Input type="number" id="capitalAmount" name="capitalAmount" min="0" placeholder="ex : 40000" required/>
+                    <Input type="number" onWheel={(e) => (e.target as HTMLInputElement).blur()} className="border-gray-300 border" id="capitalAmount" name="capitalAmount" min="0" placeholder="ex : 40000" required/>
                 </div>
                 <div className="gap-y-2 flex space-x-5">
                     <div className="gap-y-2 flex flex-col w-1/3">
@@ -195,15 +200,16 @@ export default function CreatePage() {
                                 <HelpCircle className="w-4 h-4 cursor-help" />
                             </Tooltip>
                         </div>
-                        <Input type="text" id="adresse" name="adresse" placeholder="ex : 47 Rue de l'Hôpital Militaire" required/>
+                        <Input type="text" className="border border-gray-300" id="adresse" name="adresse" placeholder="ex : 47 Rue de l'Hôpital Militaire" required/>
                     </div>
+
                     <div className="gap-y-2 flex flex-col w-1/3">
                         <Label htmlFor="postal">Code Postal</Label>
-                        <Input type="number" id="postal" name="postal" min="0" max="99999" placeholder="ex : 59000" required/>
+                        <Input type="number" className="border border-gray-300" id="postal" name="postal" min="0" max="99999" placeholder="ex : 59000" required/>
                     </div>
                     <div className="gap-y-2 flex flex-col w-1/3">
                         <Label htmlFor="ville">Ville</Label>
-                        <Input type="text" id="ville" name="ville" placeholder="ex : Lille" required/>
+                        <Input type="text" className="border border-gray-300" id="ville" name="ville" placeholder="ex : Lille" required/>
                     </div>
                 </div>
                 <div className="gap-y-2 flex flex-col">
@@ -213,13 +219,18 @@ export default function CreatePage() {
                             <HelpCircle className="w-4 h-4 cursor-help" />
                         </Tooltip>
                    </div>
-                    <Input type="number" id="siret" name="siret" min="0" pattern="[0-9]{9}" placeholder="ex : 123456789" required/>
+                    <Input type="number" className="border-gray-300 border" id="siret" name="siret" min="0" pattern="[0-9]{9}" placeholder="ex : 123456789" required/>
                 </div>
                 <div className="gap-y-2 flex flex-col">
-                    <Label htmlFor="rcs">RCS</Label>
-                    <Select name="rcs" required>
-                        <SelectTrigger>
-                            <SelectValue placeholder="ex : Lille Métropole" />
+                    <div className="flex items-center gap-2">
+                        <Label htmlFor="rcs">RCS</Label>
+                        <Tooltip text="Registre du commerce et des sociétés auquel se rattache la société">
+                            <HelpCircle className="w-4 h-4 cursor-help" />
+                        </Tooltip>
+                   </div>
+                    <Select name="rcs"  required>
+                        <SelectTrigger className="border border-gray-300">
+                            <SelectValue placeholder="-----------"  />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
@@ -674,9 +685,11 @@ export default function CreatePage() {
                     <Label htmlFor="partsNumber">Nombre de parts de la société</Label>
                     <Input 
                     type="number" 
+                    onWheel={(e) => (e.target as HTMLInputElement).blur()}
                     id="partsNumber" 
                     name="partsNumber" 
-                    min="0" 
+                    min="0"
+                    className="border-gray-300 border"
                     placeholder="ex : 500" 
                     required
                     value={totalShares}
@@ -686,24 +699,33 @@ export default function CreatePage() {
                 <div className="gap-y-2 flex space-x-5">
                     <div className="gap-y-2 flex flex-col w-1/2">
                             <Label htmlFor="meetingDate">Date de l'assemblée</Label>
-                            <Input type="date" id="meetingDate" name="meetingDate"required/>
+                            <Input type="date" className="border border-gray-300" id="meetingDate" name="meetingDate"required/>
                     </div>
                     <div className="gap-y-2 flex flex-col w-1/2">
                             <Label htmlFor="meetingTime">Heure de l'assemblée</Label>
-                            <Input type="time" id="meetingTime" name="meetingTime"required/>
+                            <Input type="time" className="border border-gray-300" id="meetingTime" name="meetingTime"required/>
                     </div>
                 </div>
-                <div className="gap-y-2 flex flex-col">
+                
+                <div className="gap-y-2 flex flex-col border-2 border-gray-500 p-6">
+                    <div>
+                        <h1 className="text-green-700 font-bold text-2xl text-center mb-4 underline underline-offset-2">Participants :</h1>
+                    </div>
                     {participants.map((participant, index) => (
-                    <div key={index} className="flex space-x-5">
+                    <div key={index} className={`flex space-x-5 mb-2 pb-4 ${
+                                participants.length > 1 && index !== participants.length - 1 
+                                ? 'border-b border-b-green-700' 
+                                : ''
+                            }`}
+                        >
                         <div className="gap-y-2 flex flex-col w-1/4">
                         <Label className="text-center" htmlFor={`gerant-${index}`}>Est-il gérant ?</Label>
                         <Input
                             type="checkbox"
                             id={`gerant-${index}`}
                             name={`gerant-${index}`}
+                            className="border border-gray-300"
                             onChange={(e) => handleParticipantChange(index, "gerant", e.target.checked)}
-                            required
                         />
                         </div>
                         <div className="gap-y-2 flex flex-col w-1/4">
@@ -714,11 +736,11 @@ export default function CreatePage() {
                             onValueChange={(value) => handleParticipantChange(index, "sexe", value as string)}
                             required
                         >
-                            <SelectTrigger>
-                            <SelectValue placeholder="ex : Monsieur" />
+                            <SelectTrigger className="border border-gray-300">
+                            <SelectValue placeholder="------"  />
                             </SelectTrigger>
                             <SelectContent>
-                            <SelectGroup>
+                            <SelectGroup >
                                 <SelectItem value="Monsieur">Monsieur</SelectItem>
                                 <SelectItem value="Madame">Madame</SelectItem>
                             </SelectGroup>
@@ -734,6 +756,7 @@ export default function CreatePage() {
                             value={participant.firstName}
                             onChange={(e) => handleParticipantChange(index, "firstName", e.target.value)}
                             placeholder="ex : Jean"
+                            className="border border-gray-300"
                             required
                         />
                         </div>
@@ -746,6 +769,7 @@ export default function CreatePage() {
                             value={participant.lastName}
                             onChange={(e) => handleParticipantChange(index, "lastName", e.target.value)}
                             placeholder="ex : Dupont"
+                            className="border border-gray-300"
                             required
                         />
                         </div>
@@ -759,6 +783,7 @@ export default function CreatePage() {
                             value={participant.shares}
                             onChange={(e) => handleParticipantChange(index, "shares", e.target.value)}
                             min="0"
+                            className="border border-gray-300"
                             placeholder="ex : 10"
                             required
                             />
@@ -779,17 +804,17 @@ export default function CreatePage() {
                     <div className="flex flex-col items-center pt-3">
                         {!isValid && <p className="text-red-500 text-sm mb-2">{errorMessage}</p>}
                         {warningMessage && <p className="text-red-500 text-sm mb-2">{warningMessage}</p>}   
-                        <Button type="button" className="bg-green-500 hover:bg-green-600 text-white w-[180px]" onClick={handleAddParticipant}>
+                        <Button type="button" className="bg-green-700 hover:bg-green-800 text-white w-[180px] font-semibold" onClick={handleAddParticipant}>
                         Ajouter un participant
                         </Button>
                     </div>
                 </div>
                 <input type="hidden" name="participants" value={JSON.stringify(participants)} />
-                <div className="flex flex-col">
-                    <Label htmlFor="ordreDuJour">Ordre du Jour</Label>
-                    <div>
+                <div className="flex flex-col border-2 border-gray-500 p-4">
+                    <Label htmlFor="ordreDuJour" className="text-2xl underline underline-offset-2 text-green-700 font-bold text-center">Ordre du Jour :</Label>
+                      <div>
                         {checkboxItems.map((item, index) => (
-                        <CheckboxItem 
+                        <CheckboxItem
                             key={index}
                             name={item.name}
                             label={item.label}
@@ -804,16 +829,24 @@ export default function CreatePage() {
                             if (name === 'fixation') {
                                 setIsFixationChecked(checked);
                             }
-                            }}
+                            if (name === 'affectation') {
+                                setIsAffectationChecked(checked);   
+                            }
+                            if (name === 'lecture') {
+                                setIsLectureChecked(checked);   
+                            }
+                        }}
                         />
                         ))}
-                    </div>
+                        </div>  
+                    
                 </div>
                 <div className="gap-y-2 flex flex-col">
                     <Label htmlFor="exerciceDate">Date de cloture de l'exercice social</Label>
-                    <Input type="date" id="exerciceDate" name="exerciceDate" required/>
+                    <Input className="border border-gray-300" type="date" id="exerciceDate" name="exerciceDate" required/>
                 </div>
-                <div className="gap-y-2 flex flex-col">
+                <div className={`${hasCommissaire ? 'border-2 border-gray-500 p-4 rounded' : ''}`}>
+                    <div className="gap-y-2 flex flex-col ">
                     <div className="flex items-center space-x-2">
                         <Input className="w-5" type="checkbox" id="commissaire"
                             name="commissaire" 
@@ -821,7 +854,7 @@ export default function CreatePage() {
                         />
                         <label
                             htmlFor="terms"
-                            className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                            className="text-sm font-semibold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                             Avez-vous un commissaire aux comptes
                         </label>
                     </div>
@@ -830,9 +863,9 @@ export default function CreatePage() {
                 <div className="gap-y-2 flex space-x-5">
                     <div className="gap-y-2 flex flex-col w-1/4">
                         <Label htmlFor="sexeCommissaire">Informations commissaire aux comptes</Label>
-                        <Select name="sexeCommissaire" required>
-                            <SelectTrigger>
-                                <SelectValue placeholder="ex : Monsieur" />
+                        <Select name="sexeCommissaire"  required>
+                            <SelectTrigger className="border border-gray-300" >
+                                <SelectValue placeholder="-------" />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectGroup>
@@ -848,6 +881,7 @@ export default function CreatePage() {
                             type="text"
                             id="prenomCommissaire"
                             name="prenomCommissaire"
+                            className="border border-gray-300"
                             placeholder="ex : Jean"
                             required
                         />
@@ -857,6 +891,7 @@ export default function CreatePage() {
                         <Input
                             type="text"
                             id="nomCommissaire"
+                            className="border border-gray-300"
                             name="nomCommissaire"
                             placeholder="ex : Dupont"
                             required
@@ -864,22 +899,28 @@ export default function CreatePage() {
                     </div>
                     <div className="gap-y-2 flex flex-col items-center justify-center w-1/4">
                         <Label htmlFor="presenceCommissaire">Présent à l'assemblée</Label>
-                        <Switch name="presenceCommissaire"/>
+                        <Switch name="presenceCommissaire" className="border border-gray-300"/>
                     </div>
                 </div>
             )}
+                </div>
                 <div className="gap-y-2 flex space-x-5">
                     <div className="gap-y-2 flex flex-col w-1/3">
+                        <div className="flex items-center gap-2">
                         <Label htmlFor="adressePerso">Adresse Personnelle</Label>
-                        <Input type="text" id="adressePerso" name="adressePerso" placeholder="ex : 47 Rue de l'Hôpital Militaire" required/>
+                        <Tooltip text="Cette adresse doit correspondre au premier gérant que vous avez renseigné">
+                            <HelpCircle className="w-4 h-4 cursor-help" />
+                        </Tooltip>
+                   </div>
+                        <Input className="border border-gray-300" type="text" id="adressePerso" name="adressePerso" placeholder="ex : 47 Rue de l'Hôpital Militaire" required/>
                     </div>
                     <div className="gap-y-2 flex flex-col w-1/3">
                         <Label htmlFor="postalPerso">Code Postal</Label>
-                        <Input type="number" id="postalPerso" name="postalPerso" min="0" max="99999" placeholder="ex : 59000" required/>
+                        <Input className="border border-gray-300" type="number" id="postalPerso" name="postalPerso" min="0" max="99999" placeholder="ex : 59000" required/>
                     </div>
                     <div className="gap-y-2 flex flex-col w-1/3">
                         <Label htmlFor="villePerso">Ville</Label>
-                        <Input type="text" id="villePerso" name="villePerso" placeholder="ex : Lille" required/>
+                        <Input className="border border-gray-300" type="text" id="villePerso" name="villePerso" placeholder="ex : Lille" required/>
                     </div>
                 </div>
                 <div className="gap-y-2 flex flex-col">
@@ -893,10 +934,11 @@ export default function CreatePage() {
                         <Label htmlFor="sexeComptable">Sexe</Label>
                         <Select
                             name="sexeComptable"
+                            
                             required
                         >
-                            <SelectTrigger>
-                            <SelectValue placeholder="ex : Monsieur" />
+                            <SelectTrigger className="border border-gray-300">
+                            <SelectValue placeholder="-------" />
                             </SelectTrigger>
                             <SelectContent>
                             <SelectGroup>
@@ -910,6 +952,7 @@ export default function CreatePage() {
                         <Label htmlFor="prenomComptable">Prénom</Label>
                         <Input
                             type="text"
+                            className="border border-gray-300"
                             id="prenomComptable"
                             name="prenomComptable"
                             placeholder="ex : Jean"
@@ -920,6 +963,7 @@ export default function CreatePage() {
                         <Label htmlFor="nomComptable">Nom</Label>
                         <Input
                             type="text"
+                            className="border border-gray-300"
                             id="nomComptable"
                             name="nomComptable"
                             placeholder="ex : Dupont"
@@ -930,31 +974,36 @@ export default function CreatePage() {
                 </div>
                 <div className="gap-y-2 flex flex-col">
                     <Label htmlFor="societeNameComptable">Dénomination sociale du cabinet</Label>
-                    <Input type="text" id="societeNameComptable" name="societeNameComptable" placeholder="ex : OpenAI"required/>
+                    <Input className="border border-gray-300" type="text" id="societeNameComptable" name="societeNameComptable" placeholder="ex : OpenAI"required/>
                 </div>
                 <div className="gap-y-2 flex space-x-5">
                     <div className="gap-y-2 flex flex-col w-1/3">
                         <Label htmlFor="adresseComptable">Adresse du cabinet</Label>
-                        <Input type="text" id="adresseComptable" name="adresseComptable" placeholder="ex : 47 Rue de l'Hôpital Militaire" required/>
+                        <Input className="border border-gray-300" type="text" id="adresseComptable" name="adresseComptable" placeholder="ex : 47 Rue de l'Hôpital Militaire" required/>
                     </div>
                     <div className="gap-y-2 flex flex-col w-1/3">
                         <Label htmlFor="postalComptable">Code Postal</Label>
-                        <Input type="number" id="postalComptable" name="postalComptable" min="0" max="99999" placeholder="ex : 59000" required/>
+                        <Input className="border border-gray-300" type="number" id="postalComptable" name="postalComptable" min="0" max="99999" placeholder="ex : 59000" required/>
                     </div>
                     <div className="gap-y-2 flex flex-col w-1/3">
                         <Label htmlFor="villeComptable">Ville</Label>
-                        <Input type="text" id="villeComptable" name="villeComptable" placeholder="ex : Lille" required/>
+                        <Input className="border border-gray-300" type="text" id="villeComptable" name="villeComptable" placeholder="ex : Lille" required/>
                     </div>
                 </div>
                 <div className="gap-y-2 flex flex-col">
                     <Label htmlFor="siretComptable">Numéro de SIREN du cabinet</Label>
-                    <Input type="number" id="siretComptable" name="siretComptable" min="0" pattern="[0-9]{9}" placeholder="ex : 123456789" required/>
+                    <Input className="border border-gray-300" type="number" id="siretComptable" name="siretComptable" min="0" pattern="[0-9]{9}" placeholder="ex : 123456789" required/>
                 </div>
                 <div className="gap-y-2 flex flex-col">
-                    <Label htmlFor="rcsComptable">RCS du cabinet</Label>
+                    <div className="flex items-center gap-2">
+                        <Label htmlFor="rcsComptable">RCS du cabinet</Label>
+                        <Tooltip text="Registre du commerce et des sociétés auquel est rattaché le cabinet comptable">
+                            <HelpCircle className="w-4 h-4 cursor-help" />
+                        </Tooltip>
+                   </div>
                     <Select name="rcsComptable" required>
-                        <SelectTrigger>
-                            <SelectValue placeholder="ex : Lille Métropole" />
+                        <SelectTrigger className="border border-gray-300">
+                            <SelectValue placeholder="-----------" />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
@@ -1410,7 +1459,8 @@ export default function CreatePage() {
                         <Label htmlFor="nondeduc">
                         Dépenses et charges non déductibles des bénéfices soumis à l'impôt sur les sociétés
                         </Label>
-                        <Input 
+                        <Input
+                        className="border border-gray-300"
                         type="number" 
                         id="nondeduc" 
                         name="nondeduc" 
@@ -1419,17 +1469,31 @@ export default function CreatePage() {
                         />
                     </div>
                 )}
+                {isLectureChecked && (
+                    <div className="gap-y-2 flex flex-col">
+                        
+                        <Label htmlFor="convreg">
+                        Conventions réglementées
+                        </Label>
+                        <div className="text-sm flex items-center gap-2">
+                        <Input type="checkbox" id="convreg" name="convreg" className="w-6 cursor-pointer"/>
+                <p>Cochez si vous avez des conventions réglementées conclues entre les associés et la société au cours de l’exercice écoulé</p>
+                    </div>
+                    </div>
+                )}
                 {isApprobationBossChecked && (
                 <div className="gap-y-2 flex space-x-5">
-                <div className="gap-y-2 flex flex-col w-1/2">
-                <Label>Approbation de la rémunération allouée aux Gérants</Label>
+                <div className="gap-y-2 flex flex-col w-full border-2 border-green-700 p-4">
+                <Label className="text-green-700 text-xl font-bold underline underline-offset-2">Approbation de la rémunération allouée aux Gérants :</Label>
                     {participants
                         .filter(participant => participant.gerant)
                         .map((participant, index) => (
-                            <div className="gap-y-2 flex items-center space-x-5">
-                            <p key={index}>{participant.sexe} {participant.lastName} {participant.firstName}</p>
+                            <div className="gap-y-2 flex items-center space-x-5 p-2">
+                                <div className=" flex items-center  w-1/3">
+                                  <p key={index}>{participant.sexe} {participant.lastName} {participant.firstName}</p>  
+                                </div>
                             <div className="gap-y-2 flex flex-col">
-                            <Label htmlFor={`remuneration-${index}`}>Rémunération brute</Label>
+                            <Label htmlFor={`remuneration-${index}`}>Rémunération brute annuelle</Label>
                             <Input
                             type="number"
                             id={`remuneration-${index}`}
@@ -1449,15 +1513,21 @@ export default function CreatePage() {
                 )}
                 {isFixationChecked && (
                 <div className="gap-y-2 flex space-x-5">
-                <div className="gap-y-2 flex flex-col w-1/2">
-                <Label>Fixation de la rémunération aux Gérants</Label>
+                <div className="gap-y-2 flex flex-col w-full border-2 border-gray-700 p-4">
+                <Label className="text-gray-700 text-xl font-bold underline underline-offset-2">Fixation de la rémunération aux Gérants :</Label>
+
+                    <Label htmlFor="acompter">Date de mise en application</Label>
+                    <Input className="border border-gray-300" type="date" id="acompter" name="acompter" required/>
+
                     {participants
                         .filter(participant => participant.gerant)
                         .map((participant, index) => (
                             <div className="gap-y-2 flex items-center space-x-5">
-                            <p key={index}>{participant.sexe} {participant.lastName} {participant.firstName}</p>
+                                <div className=" flex items-center  w-1/3">
+                                    <p key={index}>{participant.sexe} {participant.lastName} {participant.firstName}</p>
+                                </div>
                             <div className="gap-y-2 flex flex-col">
-                            <Label htmlFor={`remunerationFuture-${index}`}>Rémunération fixée</Label>
+                            <Label htmlFor={`remunerationFuture-${index}`}>Rémunération fixée mensuelle</Label>
                             <Input
                             type="number"
                             id={`remunerationFuture-${index}`}
@@ -1475,25 +1545,30 @@ export default function CreatePage() {
                 </div>
                 </div>
                 )}
-                <div className="gap-y-2 flex space-x-5">
+                {isAffectationChecked && (
+                <div>
+                    <div className="gap-y-2 flex space-x-5">
                     <div className="gap-y-2 flex flex-col w-1/2">
                         <Label htmlFor="benef">Résultat Bénéficiaire</Label>
                         <Input 
                         type="number" 
+                        className="border border-gray-300"
                         id="benef" 
                         name="benef" 
                         min="0" 
                         step="0.01" 
                         placeholder="ex : 20000"
                         value={beneficiaire}
+                        onWheel={(e) => (e.target as HTMLInputElement).blur()}
                         onChange={handleBeneficiaireChange}
                         disabled={deficitaire !== ''}
                         />
                     </div>
-                    <p className="pt-7">ou</p>
+                    <p className="pt-7 font-semibold text-lg">ou</p>
                     <div className="gap-y-2 flex flex-col w-1/2">
                         <Label htmlFor="deficite">Résultat Déficitaire</Label>
                         <Input 
+                        className="border border-gray-300"
                         type="number" 
                         id="deficite" 
                         name="deficite" 
@@ -1501,49 +1576,86 @@ export default function CreatePage() {
                         step="0.01" 
                         placeholder="ex : 20000"
                         value={deficitaire}
+                        onWheel={(e) => (e.target as HTMLInputElement).blur()}
                         onChange={handleDeficitaireChange}
                         disabled={beneficiaire !== ''}
                         />
                     </div>
                 </div>
-                <div className="gap-y-2 flex flex-col">
+                <div className="gap-y-2 flex flex-col mt-6">
                 <Label htmlFor="affect">Affectation du résultat</Label>
                 <table className="border-collapse border border-black">
                     <tbody>
                     <tr>
-                        <th colSpan={2} className="border border-black p-2">Origine</th>
+                        <th colSpan={2} rowSpan={4} className="border border-black p-2">Origine</th>
                         <th colSpan={2} className="border border-black p-2">Destination</th>
                     </tr>
                     <tr>
-                        <td className="border border-black p-2">Report à nouveau</td>
-                        <td className="border border-black p-2"><Input type='number' min="0" className="w-full" placeholder="0 €"/></td>
                         <td className="border border-black p-2">Réserve légale</td>
-                        <td className="border border-black p-2"><Input type='number' min="0" className="w-full" placeholder="0 €"/></td>
+                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a12" name="a12" className="w-full" placeholder="0 €" disabled={deficitaire !== ''}/></td>
                     </tr>
                     <tr>
-                        <td className="border border-black p-2">Réserve légale antérieure</td>
-                        <td className="border border-black p-2"><Input type='number' min="0" className="w-full" placeholder="0 €"/></td>
+                        
                         <td className="border border-black p-2">Report à nouveau créditeur</td>
-                        <td className="border border-black p-2"><Input type='number' min="0" className="w-full" placeholder="0 €"/></td>
+                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a22" name="a22" className="w-full" placeholder="0 €" disabled={deficitaire !== ''}/></td>
                     </tr>
                     <tr>
-                        <td className="border border-black p-2">Autres réserves antérieures</td>
-                        <td className="border border-black p-2"><Input type='number' min="0" className="w-full" placeholder="0 €"/></td>
+                        
                         <td className="border border-black p-2">Distribution de dividendes</td>
-                        <td className="border border-black p-2"><Input type='number' min="0" className="w-full" placeholder="0 €"/></td>
+                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a32" name="a32" className="w-full" placeholder="0 €"/></td>
                     </tr>
                     <tr>
-                        <td className="border border-black p-2">Résultat de l'exercice</td>
-                        <td className="border border-black p-2"><Input type='number' min="0" className="w-full" placeholder="0 €"/></td>
-                        <td className="border border-black p-2">Report à nouveau créditeur</td>
-                        <td className="border border-black p-2"><Input type='number' min="0" className="w-full" placeholder="0 €"/></td>
+                    <td className="border border-black p-2">Résultat de l'exercice</td>
+                    <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a11" value={beneficiaire ? beneficiaire : deficitaire ? -deficitaire : ''} name="a11" className="w-full" placeholder="0 €" disabled/></td>
+                        <td className="border border-black p-2">Report à nouveau débiteur</td>
+                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a42" name="a42" className="w-full" placeholder="0 €" disabled={beneficiaire !== ''}/></td>
+                    </tr>
+                    <tr>
+                    <td className="border border-black p-2">Report à nouveau débiteur</td>
+                    <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a21" name="a21" className="w-full" placeholder="0 €"/></td>
+                        <td className="border border-black p-2">Autres réserves</td>
+                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a52" name="a52" className="w-full" placeholder="0 €" disabled={deficitaire !== ''}/></td>
+                    </tr>
+                    <tr>
+                    <td className="border border-black p-2">Report à nouveau créditeur</td>
+                    <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a31" name="a31" className="w-full" placeholder="0 €"/></td>
+                        <td className="border border-black p-2">En diminution de "Report à nouveau débiteur"</td>
+                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a62" name="a62" className="w-full" placeholder="0 €" disabled={deficitaire !== ''}/></td>
+                    </tr>
+                    <tr>
+                    <td className="border border-black p-2">Réserve légale antérieure</td>
+                    <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a41" name="a41" className="w-full" placeholder="0 €"/></td>
+                        <td className="border border-black p-2">En diminution de "Report à nouveau créditeur"</td>
+                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a72" name="a72" className="w-full" placeholder="0 €" disabled={beneficiaire !== ''}/></td>
+                    </tr>
+                    <tr>
+                    <td className="border border-black p-2">Autres réserves antérieures</td>
+                    <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a51" name="a51" className="w-full" placeholder="0 €"/></td>
+                        <td className="border border-black p-2">En diminution de "Autres réserves"</td>
+                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a82" name="a82" className="w-full" placeholder="0 €" disabled={beneficiaire !== ''}/></td>
                     </tr>
                     </tbody>
                 </table>
+                {beneficiaire !== '' && (
+                <div>
+                <p>1 - Doter la réserve légale au minimum à hauteur de 5% du bénéfice et dans la limite de 10% du capital social</p>
+                <p>2 - Si report à nouveau débiteur antérieur, alors l'apurer en totalité ou en partie si le résultat ne permet pas de couvrir la totalité</p>
+                <p>3 - Décider ou non de la mise en distribution de dividendes</p>
+                <p>4 - Mettre le solde en report à nouveau créditeur ou en Autres réserves</p>
                 </div>
-                <div className="flex flex-col gap-y-2">
+                )}
+                {deficitaire !== '' && (
+                <div>
+                <p>1 - Si report à nouveau créditeur antérieur alors apurer en totalité ou en partie le déficit si le report ne permet pas de couvrir la totalité</p>
+                <p>2 - Si réserve antérieur alors apurer en totalité ou en partie le déficit si la réserve ne permet pas de couvrir la totalité</p>
+                <p>3 - mettre le solde en report à nouveau débiteur</p>
+                <p>4 - Possibilité de distribution de dividendes s'il reste de l'argent en réserve après l'apuration de la totalité du déficit</p>
+                </div>
+                )}
+                </div>
+                <div className="flex flex-col mt-4">
                 <Label htmlFor="3exercices">Les 3 derniers exercices</Label>
-                <div className="text-sm flex items-center gap-4">
+                <div className="text-sm flex items-center gap-2">
                 <Input type="checkbox" id="completed" name="completed" className="w-6 cursor-pointer" onChange={handleCheckboxChange}/>
                 <p>Cochez si vous avez des dividendes distribués sur les 3 derniers exercices</p>
                 </div>
@@ -1602,6 +1714,10 @@ export default function CreatePage() {
                         </table>
                     )}
                 </div>
+                </div>
+                )}
+                
+                
             </CardContent>
             <CardFooter className="flex items-center justify-between">
                 <Button type="button" className="bg-red-500 hover:bg-red-600 text-white">
