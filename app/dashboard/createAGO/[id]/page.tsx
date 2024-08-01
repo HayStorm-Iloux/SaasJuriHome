@@ -46,19 +46,19 @@ export default function UpdatePage({ params }: UpdatePageProps) {
 
     //protection Souscription
     const router = useRouter();
-    useEffect(() => {
-        const fetchData = async () => {
-            const sub = await getSub();
-            console.log(sub);
-            const hasActiveSubscription = sub?.subscription.some(
-                (subscription) => subscription.status === "active"
-            );
-            if (!hasActiveSubscription) {
-                router.push("/dashboard/payment");
-            }
-        };
-        fetchData();
-    }, []);
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const sub = await getSub();
+    //         console.log(sub);
+    //         const hasActiveSubscription = sub?.subscription.some(
+    //             (subscription) => subscription.status === "active"
+    //         );
+    //         if (!hasActiveSubscription) {
+    //             router.push("/dashboard/payment");
+    //         }
+    //     };
+    //     fetchData();
+    // }, []);
     
     // decla const
     const [ago, setAgo] = useState<any>(null);
@@ -71,6 +71,18 @@ export default function UpdatePage({ params }: UpdatePageProps) {
     const [hideTable, setHideTable] = useState(false);
     const [beneficiaire, setBeneficiaire] = useState<string>('');
     const [deficitaire, setDeficitaire] = useState<string>('');
+    const [a21, seta21] = useState<string>('');
+    const [a31, seta31] = useState<string>('');
+    const [a41, seta41] = useState<string>('');
+    const [a51, seta51] = useState<string>('');
+    const [a12, seta12] = useState<string>('');
+    const [a22, seta22] = useState<string>('');
+    const [a32, seta32] = useState<string>('');
+    const [a42, seta42] = useState<string>('');
+    const [a52, seta52] = useState<string>('');
+    const [a62, seta62] = useState<string>('');
+    const [a72, seta72] = useState<string>('');
+    const [a82, seta82] = useState<string>('');
     const [participants, setParticipants] = useState<Participant[]>([
         { gerant: false, sexe: "", firstName: "", lastName: "", shares: "", remuneration: "", remunerationFuture: "" },
     ]);
@@ -141,6 +153,18 @@ export default function UpdatePage({ params }: UpdatePageProps) {
                 setTotalSharesNum(parseInt(fetchedAgo.partsNumber?.toString() || '0') || 0);
                 setBeneficiaire(fetchedAgo.benef?.toString() || '');
                 setDeficitaire(fetchedAgo.deficite?.toString() || '');
+                seta21(fetchedAgo.a21?.toString() || '');
+                seta31(fetchedAgo.a31?.toString() || '');
+                seta41(fetchedAgo.a41?.toString() || '');
+                seta51(fetchedAgo.a51?.toString() || '');
+                seta12(fetchedAgo.a12?.toString() || '');
+                seta22(fetchedAgo.a22?.toString() || '');
+                seta32(fetchedAgo.a32?.toString() || '');
+                seta42(fetchedAgo.a42?.toString() || '');
+                seta52(fetchedAgo.a52?.toString() || '');
+                seta62(fetchedAgo.a62?.toString() || '');
+                seta72(fetchedAgo.a72?.toString() || '');
+                seta82(fetchedAgo.a82?.toString() || '');
             }
 
         };
@@ -187,6 +211,18 @@ export default function UpdatePage({ params }: UpdatePageProps) {
     const handleDeficitaireChange = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setDeficitaire(value);
+        seta21('');
+        seta31('');
+        seta41('');
+        seta51('');
+        seta12('');
+        seta22('');
+        seta32('');
+        seta42('');
+        seta52('');
+        seta62('');
+        seta72('');
+        seta82('');
         if (value !== '') {
             setBeneficiaire('');
         }
@@ -195,9 +231,81 @@ export default function UpdatePage({ params }: UpdatePageProps) {
     const handleBeneficiaireChange = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setBeneficiaire(value);
+        seta21('');
+        seta31('');
+        seta41('');
+        seta51('');
+        seta12('');
+        seta22('');
+        seta32('');
+        seta42('');
+        seta52('');
+        seta62('');
+        seta72('');
+        seta82('');
         if (value !== '') {
             setDeficitaire('');
         }
+    };
+
+    const handleA21Change = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        seta21(value);
+    };
+    
+    const handleA31Change = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        seta31(value);
+    };
+    
+    const handleA41Change = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        seta41(value);
+    };
+    
+    const handleA51Change = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        seta51(value);
+    };
+    
+    const handleA12Change = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        seta12(value);
+    };
+    
+    const handleA22Change = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        seta22(value);
+    };
+    
+    const handleA32Change = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        seta32(value);
+    };
+    
+    const handleA42Change = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        seta42(value);
+    };
+    
+    const handleA52Change = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        seta52(value);
+    };
+    
+    const handleA62Change = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        seta62(value);
+    };
+    
+    const handleA72Change = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        seta72(value);
+    };
+    
+    const handleA82Change = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        seta82(value);
     };
 
 
@@ -803,7 +911,7 @@ export default function UpdatePage({ params }: UpdatePageProps) {
                         />
                         </div>
                         <div className="gap-y-2 flex flex-col w-1/4">
-                        <Label htmlFor={`sexe-${index}`}>Sexe</Label>
+                        <Label htmlFor={`sexe-${index}`}>Civilité</Label>
                         <Select
                             name={`sexe-${index}`}
                             value={participant.sexe}
@@ -1167,7 +1275,7 @@ export default function UpdatePage({ params }: UpdatePageProps) {
                         
                         </div>
                         <div className="gap-y-2 flex flex-col w-1/3">
-                        <Label htmlFor="sexeComptable">Sexe</Label>
+                        <Label htmlFor="sexeComptable">Civilité</Label>
                         <Select
                             name="sexeComptable"
                             required
@@ -1828,47 +1936,47 @@ export default function UpdatePage({ params }: UpdatePageProps) {
                     </tr>
                     <tr>
                         <td className="border border-black p-2">Réserve légale</td>
-                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" defaultValue={ago.a12} id="a12" name="a12" className="w-full" placeholder="0 €" disabled={deficitaire !== ''}/></td>
+                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a12" name="a12" value={a12} onChange={handleA12Change} className="w-full" placeholder="0 €" disabled={deficitaire !== ''}/></td>
                     </tr>
                     <tr>
                         
                         <td className="border border-black p-2">Report à nouveau créditeur</td>
-                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" defaultValue={ago.a22} id="a22" name="a22" className="w-full" placeholder="0 €" disabled={deficitaire !== ''}/></td>
+                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a22" name="a22" value={a22} onChange={handleA22Change} className="w-full" placeholder="0 €" disabled={deficitaire !== ''}/></td>
                     </tr>
                     <tr>
                         
                         <td className="border border-black p-2">Distribution de dividendes</td>
-                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" defaultValue={ago.a32} id="a32" name="a32" className="w-full" placeholder="0 €"/></td>
+                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a32" name="a32" value={a32} onChange={handleA32Change} className="w-full" placeholder="0 €"/></td>
                     </tr>
                     <tr>
                     <td className="border border-black p-2">Résultat de l'exercice</td>
                     <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a11" value={beneficiaire ? beneficiaire : deficitaire ? -deficitaire : ''} name="a11" className="w-full" placeholder="0 €" disabled/></td>
                         <td className="border border-black p-2">Report à nouveau débiteur</td>
-                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" defaultValue={ago.a42} id="a42" name="a42" className="w-full" placeholder="0 €" disabled={beneficiaire !== ''}/></td>
+                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a42" name="a42" value={a42} onChange={handleA42Change} className="w-full" placeholder="0 €" disabled={beneficiaire !== ''}/></td>
                     </tr>
                     <tr>
                     <td className="border border-black p-2">Report à nouveau débiteur</td>
-                    <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" defaultValue={ago.a21} id="a21" name="a21" className="w-full" placeholder="0 €"/></td>
+                    <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a21" name="a21" value={a21} onChange={handleA21Change} className="w-full" placeholder="0 €"/></td>
                         <td className="border border-black p-2">Autres réserves</td>
-                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" defaultValue={ago.a52} id="a52" name="a52" className="w-full" placeholder="0 €" disabled={deficitaire !== ''}/></td>
+                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a52" name="a52" value={a52} onChange={handleA52Change} className="w-full" placeholder="0 €" disabled={deficitaire !== ''}/></td>
                     </tr>
                     <tr>
                     <td className="border border-black p-2">Report à nouveau créditeur</td>
-                    <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" defaultValue={ago.a31} id="a31" name="a31" className="w-full" placeholder="0 €"/></td>
+                    <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a31" name="a31" value={a31} onChange={handleA31Change} className="w-full" placeholder="0 €"/></td>
                         <td className="border border-black p-2">En diminution de "Report à nouveau débiteur"</td>
-                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" defaultValue={ago.a62} id="a62" name="a62" className="w-full" placeholder="0 €" disabled={deficitaire !== ''}/></td>
+                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a62" name="a62" value={a62} onChange={handleA62Change} className="w-full" placeholder="0 €" disabled={deficitaire !== ''}/></td>
                     </tr>
                     <tr>
                     <td className="border border-black p-2">Réserve légale antérieure</td>
-                    <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" defaultValue={ago.a41} id="a41" name="a41" className="w-full" placeholder="0 €"/></td>
+                    <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a41" name="a41" value={a41} onChange={handleA41Change} className="w-full" placeholder="0 €"/></td>
                         <td className="border border-black p-2">En diminution de "Report à nouveau créditeur"</td>
-                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" defaultValue={ago.a72} id="a72" name="a72" className="w-full" placeholder="0 €" disabled={beneficiaire !== ''}/></td>
+                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a72" name="a72" value={a72} onChange={handleA72Change} className="w-full" placeholder="0 €" disabled={beneficiaire !== ''}/></td>
                     </tr>
                     <tr>
                     <td className="border border-black p-2">Autres réserves antérieures</td>
-                    <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" defaultValue={ago.a51} id="a51" name="a51" className="w-full" placeholder="0 €"/></td>
+                    <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a51" name="a51" value={a51} onChange={handleA51Change} className="w-full" placeholder="0 €"/></td>
                         <td className="border border-black p-2">En diminution de "Autres réserves"</td>
-                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" defaultValue={ago.a82} id="a82" name="a82" className="w-full" placeholder="0 €" disabled={beneficiaire !== ''}/></td>
+                        <td className="border border-black p-2"><Input type='number' onWheel={(e) => (e.target as HTMLInputElement).blur()} min="0" id="a82" name="a82" value={a82} onChange={handleA82Change} className="w-full" placeholder="0 €" disabled={beneficiaire !== ''}/></td>
                     </tr>
                     </tbody>
                 </table>
@@ -1884,7 +1992,7 @@ export default function UpdatePage({ params }: UpdatePageProps) {
                 <div>
                 <p>1 - Si report à nouveau créditeur antérieur alors apurer en totalité ou en partie le déficit si le report ne permet pas de couvrir la totalité</p>
                 <p>2 - Si réserve antérieur alors apurer en totalité ou en partie le déficit si la réserve ne permet pas de couvrir la totalité</p>
-                <p>3 - mettre le solde en report à nouveau débiteur</p>
+                <p>3 - Mettre le solde en report à nouveau débiteur</p>
                 <p>4 - Possibilité de distribution de dividendes s'il reste de l'argent en réserve après l'apuration de la totalité du déficit</p>
                 </div>
                 )}

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Download } from "lucide-react";
 import { getAGO } from "@/lib/actionsAGO";
-import { Document, Packer, Paragraph, TextRun, Table, TableCell, TableRow, ITableCellOptions } from "docx"; // Import the necessary classes
+import { Document, Packer, Paragraph, TextRun, Table, TableCell, TableRow, ITableCellOptions, TabStopType, TabStopPosition } from "docx"; // Import the necessary classes
 
 interface DownloadProps {
   id: string;
@@ -178,7 +178,42 @@ et qui font apparaitre un ${(fetchedAgo?.benef !== null && fetchedAgo?.benef !==
     );
     }
     const paragrap2: any[] = [];
+    
+
     if (fetchedAgo?.affectation) {
+      const tabaffec: any[] = [];
+      const addTextRunIfValid = (text: string, value: any) => {
+        if (value !== null && value !== '0' && value !== '') {
+          tabaffec.push(new Paragraph({
+            children: [
+                new TextRun({
+                    text: `${text} :`,
+                    size: 24,
+                }),
+                new TextRun({
+                    text: `\t${parseFloat(value).toLocaleString('fr-FR')} Euros`,
+                    size: 24,
+                })
+            ],
+            tabStops: [
+                {
+                    type: TabStopType.RIGHT,
+                    position: TabStopPosition.MAX,
+                },
+            ],
+        }));
+        }
+      };
+
+      addTextRunIfValid("Réserve légale", fetchedAgo?.a12);
+      addTextRunIfValid("En diminution du compte « Report à nouveau débiteur »", fetchedAgo?.a62);
+      addTextRunIfValid("En diminution du compte « Report à nouveau créditeur »", fetchedAgo?.a72);
+      addTextRunIfValid("En diminution du compte « Autres réserves »", fetchedAgo?.a82);
+      addTextRunIfValid("Report à nouveau créditeur", fetchedAgo?.a22);
+      addTextRunIfValid("Report à nouveau débiteur", fetchedAgo?.a42);
+      addTextRunIfValid("Distribution de dividendes", fetchedAgo?.a32);
+      addTextRunIfValid("Autres réserves", fetchedAgo?.a52);
+
       paragrap2.push(
         new Paragraph(
           {
@@ -223,38 +258,7 @@ et qui font apparaitre un ${(fetchedAgo?.benef !== null && fetchedAgo?.benef !==
           children: [new TextRun({ text: ''})],
           alignment: 'center',
         }),
-        new Paragraph({
-          children: [new TextRun({ text: (fetchedAgo?.a12 !== null && fetchedAgo?.a12 !== '0' && fetchedAgo?.a12 !== '') ? `Réserve légale :        ${parseFloat(fetchedAgo?.a12 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
-          alignment: 'both',
-        }),
-        new Paragraph({
-          children: [new TextRun({ text: (fetchedAgo?.a22 !== null && fetchedAgo?.a22 !== '0' && fetchedAgo?.a22 !== '') ? `Report à nouveau créditeur :        ${parseFloat(fetchedAgo?.a22 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
-          alignment: 'both',
-        }),
-        new Paragraph({
-          children: [new TextRun({ text: (fetchedAgo?.a32 !== null && fetchedAgo?.a32 !== '0' && fetchedAgo?.a32 !== '') ? `Distribution de dividendes :        ${parseFloat(fetchedAgo?.a32 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
-          alignment: 'both',
-        }),
-        new Paragraph({
-          children: [new TextRun({ text: (fetchedAgo?.a42 !== null && fetchedAgo?.a42 !== '0' && fetchedAgo?.a42 !== '') ? `Report à nouveau débiteur :        ${parseFloat(fetchedAgo?.a42 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
-          alignment: 'both',
-        }),
-        new Paragraph({
-          children: [new TextRun({ text: (fetchedAgo?.a52 !== null && fetchedAgo?.a52 !== '0' && fetchedAgo?.a52 !== '') ? `Autres réserves :        ${parseFloat(fetchedAgo?.a52 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
-          alignment: 'both',
-        }),
-        new Paragraph({
-          children: [new TextRun({ text: (fetchedAgo?.a62 !== null && fetchedAgo?.a62 !== '0' && fetchedAgo?.a62 !== '') ? `En diminution du compte « Report à nouveau » :        ${parseFloat(fetchedAgo?.a62 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
-          alignment: 'both',
-        }),
-        new Paragraph({
-          children: [new TextRun({ text: (fetchedAgo?.a72 !== null && fetchedAgo?.a72 !== '0' && fetchedAgo?.a72 !== '') ? `En diminution du compte « Report à nouveau » :        ${parseFloat(fetchedAgo?.a72 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
-          alignment: 'both',
-        }),
-        new Paragraph({
-          children: [new TextRun({ text: (fetchedAgo?.a82 !== null && fetchedAgo?.a82 !== '0' && fetchedAgo?.a82 !== '') ? `En diminution du compte « Autres réserves » :        ${parseFloat(fetchedAgo?.a82 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
-          alignment: 'both',
-        }),
+        ...tabaffec,
         new Paragraph({
           children: [new TextRun({ text: ''})],
           alignment: 'center',
@@ -539,7 +543,7 @@ et qui font apparaitre un ${(fetchedAgo?.benef !== null && fetchedAgo?.benef !==
         }),
         ...fetchedAgo?.participants.filter(participant => participant.gerant).map((participant) => (
           new Paragraph({
-            children: [new TextRun({ text: `${participant.sexe} ${participant.firstName} ${(participant?.lastName as string).toUpperCase() || ''} : ${parseFloat(participant.remuneration as string).toLocaleString('fr-FR')} euros`, size: 24})],
+            children: [new TextRun({ text: `${participant.sexe} ${participant.firstName} ${(participant?.lastName as string).toUpperCase() || ''} : ${parseFloat(participant.remuneration as string).toLocaleString('fr-FR')} euros ${estSAS ? `brute` : ``}`, size: 24})],
             alignment: 'both',
           })
         )),
@@ -548,14 +552,14 @@ et qui font apparaitre un ${(fetchedAgo?.benef !== null && fetchedAgo?.benef !==
           alignment: 'center',
         }),
         new Paragraph({
-          children: [new TextRun({ text: `L’${titreAssemblee} approuve également la prise en charge par la société des cotisations dues au titre des régimes non salariés (CSG/CRDS, allocations familiales, assurance maladie, assurance vieillesse, ….) et des cotisations dites « Loi Madelin » pour ${estSAS ? `le président` : nombreGerants > 1 ? ` chacun des cogérants` : `le gérant`} et ${nombreGerants > 1 ? `relatives à ces rémunérations.` : `relative à cette rémunération.`}.`, size: 24})],
+          children: [new TextRun({ text: `${estSAS ? `` : `L’${titreAssemblee} approuve également la prise en charge par la société des cotisations dues au titre des régimes non salariés (CSG/CRDS, allocations familiales, assurance maladie, assurance vieillesse, ….) et des cotisations dites « Loi Madelin » pour ${estSAS ? `le président` : nombreGerants > 1 ? ` chacun des cogérants` : `le gérant`} et ${nombreGerants > 1 ? `relatives à ces rémunérations.` : `relative à cette rémunération.`}.`}`, size: 24})],
           alignment: 'both',
         }),
         new Paragraph({
           children: [new TextRun({ text: ''})],
           alignment: 'center',
         }),
-        new Paragraph({ children: [new TextRun({ text: `Leurs frais de déplacement et de représentation leur seront, en outre, respectivement remboursés, sur présentation de justificatifs.`, size: 24})], alignment: 'both'}),
+        new Paragraph({ children: [new TextRun({ text: `${estSAS ? `` : `Leurs frais de déplacement et de représentation leur seront, en outre, respectivement remboursés, sur présentation de justificatifs.`}`, size: 24})], alignment: 'both'}),
         new Paragraph({
           children: [new TextRun({ text: ''})],
           alignment: 'center',
@@ -618,7 +622,7 @@ et qui font apparaitre un ${(fetchedAgo?.benef !== null && fetchedAgo?.benef !==
         }),
         ...fetchedAgo?.participants.filter(participant => participant.gerant).map((participant) => (
           new Paragraph({
-            children: [new TextRun({ text: `${participant.sexe} ${participant.firstName} ${(participant?.lastName as string).toUpperCase() || ''} : ${parseFloat(participant.remunerationFuture as string).toLocaleString('fr-FR')} euros mensuel`, size: 24})],
+            children: [new TextRun({ text: `${participant.sexe} ${participant.firstName} ${(participant?.lastName as string).toUpperCase() || ''} : ${parseFloat(participant.remunerationFuture as string).toLocaleString('fr-FR')} euros mensuel ${estSAS ? `brute` : ``}`, size: 24})],
             alignment: 'both',
           })
         )),
@@ -631,12 +635,12 @@ et qui font apparaitre un ${(fetchedAgo?.benef !== null && fetchedAgo?.benef !==
           children: [new TextRun({ text: ''})],
           alignment: 'center',
         }),
-        new Paragraph({ children: [new TextRun({ text: `L’${titreAssemblee} décide également la prise en charge par la société des cotisations dues au titre des régimes non salariés (CSG/CRDS, allocations familiales, assurance maladie, assurance vieillesse, ….) et des cotisations dites « Loi Madelin » relatives ${estSAS ? `au président` : nombreGerants > 1 ? `à chacun des cogérants` : `au gérant`}`, size: 24})], alignment: 'both'}),
+        new Paragraph({ children: [new TextRun({ text: `${estSAS ? `` : `L’${titreAssemblee} décide également la prise en charge par la société des cotisations dues au titre des régimes non salariés (CSG/CRDS, allocations familiales, assurance maladie, assurance vieillesse, ….) et des cotisations dites « Loi Madelin » relatives ${estSAS ? `au président` : nombreGerants > 1 ? `à chacun des cogérants` : `au gérant`}.`}`, size: 24})], alignment: 'both'}),
         new Paragraph({
           children: [new TextRun({ text: ''})],
           alignment: 'center',
         }),
-        new Paragraph({ children: [new TextRun({ text: `Leurs frais de déplacement et de représentation leur seront, en outre, respectivement remboursés, sur présentation de justificatifs.`, size: 24})], alignment: 'both'}),
+        new Paragraph({ children: [new TextRun({ text: `${estSAS ? `` : `Leurs frais de déplacement et de représentation leur seront, en outre, respectivement remboursés, sur présentation de justificatifs.`}`, size: 24})], alignment: 'both'}),
         new Paragraph({
           children: [new TextRun({ text: ''})],
           alignment: 'center',
@@ -701,7 +705,7 @@ et qui font apparaitre un ${(fetchedAgo?.benef !== null && fetchedAgo?.benef !==
                     children: [new TextRun({ text: ''})],
                     alignment: 'center',
                   }),
-                  new Paragraph({ children: [new TextRun({ text: `Le ${formatDateInWords(fetchedAgo?.meetingDate as string)}, à ${fetchedAgo?.meetingTime} heures, les associés de ${(fetchedAgo?.societeName as string).toUpperCase()}, ${fetchedAgo?.societeType}, au capital de ${parseInt(fetchedAgo?.capitalAmount as string).toLocaleString('fr-FR')} Euros, se sont réunis en ${titreAssemblee} ordinaire, au siège social, sur convocation faite par la gérance. Les associés ont été convoqués conformément à la loi et aux statuts.`, size: 24})], alignment: 'both'}),
+                  new Paragraph({ children: [new TextRun({ text: `Le ${formatDateInWords(fetchedAgo?.meetingDate as string)}, à ${fetchedAgo?.meetingTime} heures, les associés de ${(fetchedAgo?.societeName as string).toUpperCase()}, ${fetchedAgo?.societeType}, au capital de ${parseInt(fetchedAgo?.capitalAmount as string).toLocaleString('fr-FR')} Euros, se sont réunis en ${titreAssemblee} ordinaire, au siège social, sur convocation faite par ${estSAS ? `le président` : `la gérance`}. Les associés ont été convoqués conformément à la loi et aux statuts.`, size: 24})], alignment: 'both'}),
                   new Paragraph({
                     children: [new TextRun({ text: ''})],
                     alignment: 'center',

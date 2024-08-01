@@ -50,11 +50,11 @@ export default async function PageNotes({ searchParams }: { searchParams: Search
           <div className="w-12 bg-white my-2 mx-1 h-[1px]"></div>
         </div>
         {!hasActiveSubscription ? (
-            <Link href="/dashboard/payment">
+            <Link href="/dashboard/createAGO">
             <Button>
               Créer une AGO
             </Button>
-            </Link>
+            </Link> // remplacer "createAGO par payment"
           ) : (
             <ButtonCreate />
           )}
@@ -85,11 +85,11 @@ export default async function PageNotes({ searchParams }: { searchParams: Search
             Commencez des maintenant à créer des AGO via notre application
           </p>
           {!hasActiveSubscription ? (
-            <Link href="/dashboard/payment">
+            <Link href="/dashboard/createAGO">
               <Button className="bg-green-500 hover:bg-green-600 text-white mt-4">
                 Créer une nouvelle AGO
               </Button>
-            </Link>
+            </Link> // remplacer "createAGO par payment"
           ) : (
             <Link href="/dashboard/createAGO">
               <Button className="bg-green-500 hover:bg-green-600 text-white mt-4">

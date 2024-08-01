@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Download } from "lucide-react";
 import { getAGO } from "@/lib/actionsAGO";
-import { Document, Packer, Paragraph, TextRun, Table, TableCell, TableRow, ITableCellOptions } from "docx"; // Import the necessary classes
+import { Document, Packer, Paragraph, TextRun, Table, TableCell, TableRow, ITableCellOptions, TabStopType, TabStopPosition } from "docx"; // Import the necessary classes
 
 interface DownloadProps {
   id: string;
@@ -133,6 +133,39 @@ export default function ButtonDownload4({ id }: DownloadProps) {
     const benefitText = `L'${titreAssemblee} décide d'affecter le bénéfice de l’exercice clos le ${formatDate(fetchedAgo?.exerciceDate as string)} s’élevant à ${parseFloat(fetchedAgo?.benef as string).toLocaleString('fr-FR')} Euros de la façon suivante :`
     const textToInclude = (fetchedAgo?.deficite !== '' && fetchedAgo?.deficite !== '0' && fetchedAgo?.deficite !== null) ? deficitText : benefitText;
 
+    const tabaffec: any[] = [];
+      const addTextRunIfValid = (text: string, value: any) => {
+        if (value !== null && value !== '0' && value !== '') {
+          tabaffec.push(new Paragraph({
+            children: [
+                new TextRun({
+                    text: `${text} :`,
+                    size: 24,
+                }),
+                new TextRun({
+                    text: `\t${parseFloat(value).toLocaleString('fr-FR')} Euros`,
+                    size: 24,
+                })
+            ],
+            tabStops: [
+                {
+                    type: TabStopType.RIGHT,
+                    position: TabStopPosition.MAX,
+                },
+            ],
+        }));
+        }
+      };
+
+      addTextRunIfValid("Réserve légale", fetchedAgo?.a12);
+      addTextRunIfValid("En diminution du compte « Report à nouveau débiteur »", fetchedAgo?.a62);
+      addTextRunIfValid("En diminution du compte « Report à nouveau créditeur »", fetchedAgo?.a72);
+      addTextRunIfValid("En diminution du compte « Autres réserves »", fetchedAgo?.a82);
+      addTextRunIfValid("Report à nouveau créditeur", fetchedAgo?.a22);
+      addTextRunIfValid("Report à nouveau débiteur", fetchedAgo?.a42);
+      addTextRunIfValid("Distribution de dividendes", fetchedAgo?.a32);
+      addTextRunIfValid("Autres réserves", fetchedAgo?.a52);
+    
     const doc = new Document({
       styles: {
         paragraphStyles: [
@@ -227,38 +260,7 @@ export default function ButtonDownload4({ id }: DownloadProps) {
                     children: [new TextRun({ text: ''})],
                     alignment: 'center',
                   }),
-                  new Paragraph({
-                    children: [new TextRun({ text: (fetchedAgo?.a12 !== null && fetchedAgo?.a12 !== '0' && fetchedAgo?.a12 !== '') ? `Réserve légale :        ${parseFloat(fetchedAgo?.a12 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
-                    alignment: 'both',
-                  }),
-                  new Paragraph({
-                    children: [new TextRun({ text: (fetchedAgo?.a22 !== null && fetchedAgo?.a22 !== '0' && fetchedAgo?.a22 !== '') ? `Report à nouveau créditeur :        ${parseFloat(fetchedAgo?.a22 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
-                    alignment: 'both',
-                  }),
-                  new Paragraph({
-                    children: [new TextRun({ text: (fetchedAgo?.a32 !== null && fetchedAgo?.a32 !== '0' && fetchedAgo?.a32 !== '') ? `Distribution de dividendes :        ${parseFloat(fetchedAgo?.a32 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
-                    alignment: 'both',
-                  }),
-                  new Paragraph({
-                    children: [new TextRun({ text: (fetchedAgo?.a42 !== null && fetchedAgo?.a42 !== '0' && fetchedAgo?.a42 !== '') ? `Report à nouveau débiteur :        ${parseFloat(fetchedAgo?.a42 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
-                    alignment: 'both',
-                  }),
-                  new Paragraph({
-                    children: [new TextRun({ text: (fetchedAgo?.a52 !== null && fetchedAgo?.a52 !== '0' && fetchedAgo?.a52 !== '') ? `Autres réserves :        ${parseFloat(fetchedAgo?.a52 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
-                    alignment: 'both',
-                  }),
-                  new Paragraph({
-                    children: [new TextRun({ text: (fetchedAgo?.a62 !== null && fetchedAgo?.a62 !== '0' && fetchedAgo?.a62 !== '') ? `En diminution du compte « Report à nouveau » :        ${parseFloat(fetchedAgo?.a62 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
-                    alignment: 'both',
-                  }),
-                  new Paragraph({
-                    children: [new TextRun({ text: (fetchedAgo?.a72 !== null && fetchedAgo?.a72 !== '0' && fetchedAgo?.a72 !== '') ? `En diminution du compte « Report à nouveau » :        ${parseFloat(fetchedAgo?.a72 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
-                    alignment: 'both',
-                  }),
-                  new Paragraph({
-                    children: [new TextRun({ text: (fetchedAgo?.a82 !== null && fetchedAgo?.a82 !== '0' && fetchedAgo?.a82 !== '') ? `En diminution du compte « Autres réserves » :        ${parseFloat(fetchedAgo?.a82 as string).toLocaleString('fr-FR')} Euros` : ``, size: 24})],
-                    alignment: 'both',
-                  }),
+                  ...tabaffec,
                   new Paragraph({
                     children: [new TextRun({ text: ''})],
                     alignment: 'center',

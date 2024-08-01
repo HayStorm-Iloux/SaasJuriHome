@@ -64,7 +64,7 @@ model VerificationToken {
 model Subscription {
   stripeSubscriptionId String @id @unique
   interval String
-  status String 
+  status String
   planId String
   currentPeriodStart Int
   currentPeriodEnd Int
